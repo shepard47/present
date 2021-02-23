@@ -1,8 +1,8 @@
-os=win
-sys=win
-wsi=wgl
+os=nix
+sys=x11
+wsi=glx
 vis=gl
 cc=gcc
-ln=-lgdi32 -lopengl32 -lepoxy
+ln=-lX11 -lGL -lepoxy
 vert=res/vert.gl
 frag=res/frag.gl
