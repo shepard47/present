@@ -76,10 +76,12 @@ grinit(void)
 	glXMakeCurrent(dm.dis, win, ctx);
 	XFree(fbc);
 	XFree(vi);
+
+	mkprog();
 }
 
 void
 swapbuf(void)
 {
-
+	glXSwapBuffers(dm.dis, win);
 }

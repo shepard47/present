@@ -3,6 +3,6 @@ sys=x11
 wsi=glx
 vis=gl
 cc=gcc
-ln=-lX11 -lGL -lepoxy
+ln=-lX11 -lGL -lepoxy -lm
 vert=res/vert.gl
 frag=res/frag.gl

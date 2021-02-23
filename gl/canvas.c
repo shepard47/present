@@ -40,7 +40,7 @@ text(char *path)
 }
 
 void
-mkprog()
+mkprog(void)
 {
 	int vs, fs, win;
 	char log[512];
@@ -84,7 +84,6 @@ mkprog()
 void
 resized(void)
 {
-	printf("%d %d\n", dm.width, dm.height);
 	glViewport(0,0,dm.width,dm.height);
 }
 
@@ -147,8 +146,6 @@ present(void)
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * 20, vert);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glClearColor(0,1,1,1);
-	glClear(GL_COLOR_BUFFER_BIT);
 	glBindTexture(GL_TEXTURE_2D, tex);
 	glUseProgram(prog);
 	glBindVertexArray(va);

@@ -1,5 +1,6 @@
 #include <present.h>
 #include <stdio.h>
+#include <epoxy/gl.h>
 
 Canvas *c;
 Sprite *s1;
@@ -20,8 +21,9 @@ main()
 	dm.width = 800;
 	dm.height = 600;
 	dm.cursor = Ccross;
-	dm.screen = 0;
+	dm.screen = 1;
 	winit("present");
+
 
 	c = canvas(3,2, "res/texture.png");
 	s1 = sprite(c, 0.1, 0.1);
@@ -40,7 +42,11 @@ main()
 
 	for(;;){
 		readev();
+
+		glClearColor(0,1,1,1);
+		glClear(GL_COLOR_BUFFER_BIT);
 		if(dm.ev == 1){
+			printf("%d\n", dm.btn);
 			mvsprite(s1, dm.x, dm.y);
 			if(dm.btn == 8){
 				sx += 0.05;
