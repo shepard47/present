@@ -1,12 +1,21 @@
 #include <present.h>
 #include <epoxy/gl.h>
-
-#define STB_IMAGE_IMPLEMENTATION
-#include <stbi.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <arpa/inet.h>
+#include <string.h>
 
 extern int va, vb, ib;
 extern int tex;
 extern float sum;
+static FILE *fp;
+
+static void /* to be declared elsewhere */
+fail(char *func)
+{
+	perror(func);
+	exit(-1);
+}
 
 void
 mkrect(int sn)
@@ -40,6 +49,39 @@ mkrect(int sn)
 	glBindVertexArray(0);
 }
 
+static void*
+ff(char *path, int *width, int *height)
+{
+	char magic[8];
+	short *data;
+	int size;
+	fp = fopen(path, "r");
+	if(fp == 0)
+		fail("fopen");
+	if(fread(magic, 1, 8, fp) != 8)
+		fail("fread(magic)");
+	if(strcmp(magic, "farbfeld") != 0)
+		fail("strcmp(magic, farbfeld)");
+	if(fread(width, 1, 4, fp) != 4)
+		fail("fread(width)");
+	if(fread(height, 1, 4, fp) != 4)
+		fail("fread(height)");
+	*width = ntohl(*width);
+	*height = ntohl(*height);
+
+	size = (*width) * (*height) * 8;
+	data = (short*)malloc(size);
+	if(data == 0)
+		fail("malloc");
+	size = fread(data, 2, size/2, fp);
+	if(size != (*width) * (*height) * 4){
+		free(data);
+		fail("fread(data)");
+	}
+	fclose(fp);
+	return data;
+}
+
 void
 mktex(char *path)
 {
@@ -53,16 +95,14 @@ mktex(char *path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	int width, height, chan;
-	stbi_set_flip_vertically_on_load(1);
-	data = stbi_load(path, &width, &height, &chan, 0);
+	data = ff(path, &width, &height);
 	if(data){
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 	}else{
-		printf("STBi: Failed to load texture:\n%s\n", path);
+		printf("Failed to load texture: %s\n", path);
 		exit(-1);
 	}
-	stbi_image_free(data);
 }
 
 Sprite*

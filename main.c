@@ -21,11 +21,11 @@ main()
 	dm.width = 800;
 	dm.height = 600;
 	dm.cursor = Ccross;
-	dm.screen = 1;
+	dm.screen = 0;
 	winit("present");
 
 
-	c = canvas(3,2, "res/texture.png");
+	c = canvas(3,2, "res/tex2.ff");
 	s1 = sprite(c, 0.1, 0.1);
 	s2 = sprite(c, 0.1, 0.1);
 	s3 = sprite(c, 0.3, 0.3);
@@ -46,7 +46,6 @@ main()
 		glClearColor(0,1,1,1);
 		glClear(GL_COLOR_BUFFER_BIT);
 		if(dm.ev == 1){
-			printf("%d\n", dm.btn);
 			mvsprite(s1, dm.x, dm.y);
 			if(dm.btn == 8){
 				sx += 0.05;
