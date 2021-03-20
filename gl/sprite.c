@@ -4,17 +4,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-extern int va, vb, ib;
 extern int tex;
 extern float sum;
 static FILE *fp;
-
-static void /* to be declared elsewhere */
-fail(char *func)
-{
-	perror(func);
-	exit(-1);
-}
+extern int va, vb, ib;
 
 void
 mkrect(int sn)
@@ -58,6 +51,13 @@ swapped(int num) {
 	return le;
 }
 
+static void
+fail(char *func)
+{
+	perror(func);
+	exit(-1);
+}
+
 static void*
 ff(char *path, int *width, int *height)
 {
@@ -83,7 +83,7 @@ ff(char *path, int *width, int *height)
 	if(data == 0)
 		fail("malloc");
 	size = fread(data, 2, size/2, fp);
-	printf("%d\n", size); /* bad on windows (?) */
+	/* bad size on windows (?) */
 	/*if(size != (*width) * (*height) * 4){
 		free(data);
 		fail("fread(data)");

@@ -8,7 +8,6 @@ extern void mkrect(int sn);
 extern void mktex(char *path);
 extern void swapbuf();
 
-
 int prog;
 char *vcode;
 char *fcode;
@@ -18,7 +17,7 @@ float *v;
 float sum;
 
 static char*
-text(char *path)
+src(char *path)
 {
 	FILE *fp;
 	long size;
@@ -44,8 +43,8 @@ mkprog(void)
 {
 	int vs, fs, win;
 	char log[512];
-	vcode = text(VERT);
-	fcode = text(FRAG);
+	vcode = src(VERT);
+	fcode = src(FRAG);
 
 	vs = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vs, 1, (const char**)&vcode, 0);
@@ -137,11 +136,9 @@ present(void)
 {
 	float vert[dm.c->si*20];
 	v = vert;
-	
 	int i;
-	for(i=0; i<dm.c->si; ++i){
+	for(i=0; i<dm.c->si; ++i)
 		memmove(v + i*20, dm.c->sv[i].vert, sizeof(float)*20);
-	}
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * 20, vert);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

@@ -21,15 +21,14 @@ grinit()
 	wglMakeCurrent(dc, old);
 
 	int attr[] = {
-		0x2091, 4,
-		0x2092, 6,
+		0x2091, 3,
+		0x2092, 3,
 		0x9126, 0x0001,
 		0x2094, 0x0002,
 		0
 	};
 	
 	HGLRC ctx = ((HGLRC(*)(HDC, HGLRC, int*))(wglGetProcAddress("wglCreateContextAttribsARB")))(dc, old, attr);
-	/* test version */
 	wglMakeCurrent(dc, ctx);
 	wglDeleteContext(old);
 

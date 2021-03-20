@@ -153,10 +153,13 @@ winit(char *label)
 		exit(-1);
 	}
 
-	if(dm.screen)
+	int style = WS_OVERLAPPED;
+	if(dm.screen){
 		fscr(); /* handle multiple screens */
+		style = WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP;
+	}
 
-	dm.win = win = CreateWindowEx(WS_EX_APPWINDOW, label, label, WS_CLIPSIBLINGS | WS_CLIPCHILDREN | WS_POPUP, 0, 0, dm.width, dm.height, 0, 0, inst, 0);
+	dm.win = win = CreateWindowEx(WS_EX_APPWINDOW, label, label, style, 0, 0, dm.width, dm.height, 0, 0, inst, 0);
 	if(win == 0){
 		perror("CreateWindowEx");
 		exit(-1);

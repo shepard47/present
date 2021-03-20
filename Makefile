@@ -6,9 +6,8 @@ OFILES=\
 	$(sys)/dormer.o\
 	$(wsi)/graphics.o\
 	$(vis)/canvas.o\
-	$(vis)/sprite.o
-	#$(vis)/text.c\
-	#$(vis)/sprite.c\
+	$(vis)/sprite.o\
+	#$(vis)/text.o\
 
 DEF=\
 	-DVERT=\"$(vert)\"\

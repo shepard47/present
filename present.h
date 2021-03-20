@@ -39,12 +39,8 @@ struct Sprite
 struct Text
 {
 	Canvas *c;
-	void *im;
-	void *fg;
-	void *ft;
-	char *str;
-	int width;
-	float x, y;
+	char *s;
+	int len;
 };
 
 enum
@@ -71,6 +67,7 @@ extern Sprite *sprite(Canvas *c, float sx, float sy);
 extern void mvsprite(Sprite *s, float x, float y);
 extern void augsprite(Sprite *s, float sx, float sy);
 extern void setsprite(Sprite *s, int tile);
+/* rotate & flip sprite */
 /* text.c */
-extern void mktext();
+extern Text *text(Canvas *c, char *s);
 extern void mvtext();

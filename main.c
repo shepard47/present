@@ -21,16 +21,16 @@ main()
 	dm.width = 800;
 	dm.height = 600;
 	dm.cursor = Ccross;
-	dm.screen = 0;
+	dm.screen = 1;
 	winit("present");
 
-
-	c = canvas(3,2, "res/tex2.ff");
+	c = canvas(3,1, "res/tex2.ff");
 	s1 = sprite(c, 0.1, 0.1);
 	s2 = sprite(c, 0.1, 0.1);
 	s3 = sprite(c, 0.3, 0.3);
 	setcanvas(c);
 
+	augsprite(s3, 0.5, 0.3);
 	mvsprite(s1, 0.2, 0.2);
 	mvsprite(s2,-0.5,-0.5);
 	mvsprite(s3, 0.5, 0.5);
@@ -39,6 +39,7 @@ main()
 	float sy = 0.1;
 
 	int tile = 0;
+
 
 	for(;;){
 		readev();
