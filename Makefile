@@ -17,3 +17,6 @@ TARG: $(OFILES)
 	$(cc) -o $(TARG) $(OFILES) -Wall $(ln)
 %.o: %.c
 	$(cc) -c $^ -o $@ -I. $(DEF)
+clean:
+	rm -f $(OFILES)
+

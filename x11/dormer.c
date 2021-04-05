@@ -13,6 +13,7 @@ Window win;
 static Atom del;
 static XEvent e;
 static Cursor c;
+struct Dormer dm;
 
 static void
 fail(char *func)

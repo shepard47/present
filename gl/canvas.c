@@ -3,6 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <epoxy/gl.h>
+#include <ctype.h>
+#include <aux/cfile.h>
+#include <aux/src.h>
 
 extern void mkrect(int sn);
 extern void mktex(char *path);
@@ -15,28 +18,6 @@ int va, vb, ib;
 int tex;
 float *v;
 float sum;
-
-static char*
-src(char *path)
-{
-	FILE *fp;
-	long size;
-	char *buf;
-
-	fp = fopen(path, "rb");
-	if(fp == 0){
-		perror("fopen");
-		exit(-1);
-	}
-	fseek(fp, 0, SEEK_END);
-	size = ftell(fp);
-	rewind(fp);
-	buf = (char*)calloc(size, sizeof(char));
-	fread(buf, 1, size, fp);
-	fclose(fp);
-
-	return buf;
-}
 
 void
 mkprog(void)
@@ -87,34 +68,18 @@ resized(void)
 }
 
 Canvas*
-canvas(int sn, int tn, char *tex)
+canvas(char *path)
 {
-	int size = sizeof(Canvas)
-		+ sizeof(Sprite) * sn
-		+ sizeof(Text) * tn;
-	Canvas *c = malloc(size);
-	c->ti = 0;
-	c->si = 0;
-	c->sv = (Sprite*)(c+1);
-	c->tv = (Text*)(c->sv+sn);
+	Canvas *c = cfile(path);
 
-	mkrect(sn);
-	mktex(tex);
+	mkrect(c->si);
+	mktex(c->tex);
 
+	dm.c = c;
 	return c;
 }
 
-void
-setcanvas(Canvas *c)
-{
-	int i;
-	int j;
-	float s[c->si];
-	for(i=0, sum=0; i<c->si; ++i)
-		sum += c->sv[i].v;
-	for(i=0; i<c->si; ++i)
-		s[i] = c->sv[i].v / sum;
-	for(i=0; i<c->si; ++i){
+	/*for(i=0; i<c->si; ++i){
 		float sub;
 		for(j=0, sub = 0; j<i; ++j)
 			sub += s[j];
@@ -126,21 +91,28 @@ setcanvas(Canvas *c)
 		c->sv[i].tex[5] = 1 - sub - c->sv[i].v / sum;
 		c->sv[i].tex[6] = 0;
 		c->sv[i].tex[7] = 1 - sub;
-	}
 
-	dm.c = c;
-}
+		printf("sv[%d]: %f %f %f %f %f %f %f %f\n", 
+			i,
+			c->sv[i].tex[0],
+			c->sv[i].tex[1],
+			c->sv[i].tex[2],
+			c->sv[i].tex[3],
+			c->sv[i].tex[4],
+			c->sv[i].tex[5],
+			c->sv[i].tex[6],
+			c->sv[i].tex[7] );
+	}*/
 
 void
 present(void)
 {
-	float vert[dm.c->si*20];
-	v = vert;
+	v = dm.c->vert;
 	int i;
 	for(i=0; i<dm.c->si; ++i)
 		memmove(v + i*20, dm.c->sv[i].vert, sizeof(float)*20);
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * 3 * 20, vert);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 20, dm.c->vert);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindTexture(GL_TEXTURE_2D, tex);

@@ -3,11 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <aux/ff.h>
 
 extern int tex;
 extern float sum;
-static FILE *fp;
-extern int va, vb, ib;
+extern int va, vb, ib, tb;
 
 void
 mkrect(int sn)
@@ -41,57 +41,6 @@ mkrect(int sn)
 	glBindVertexArray(0);
 }
 
-
-static int
-swapped(int num) {
-	int le = ((num>>24)&0xff) |
-				((num<<8)&0xff0000) |
-				((num>>8)&0xff00) |
-				((num<<24)&0xff000000);
-	return le;
-}
-
-static void
-fail(char *func)
-{
-	perror(func);
-	exit(-1);
-}
-
-static void*
-ff(char *path, int *width, int *height)
-{
-	char magic[8];
-	short *data;
-	int size;
-	fp = fopen(path, "r");
-	if(fp == 0)
-		fail("fopen");
-	if(fread(magic, 1, 8, fp) != 8)
-		fail("fread(magic)");
-	if(strncmp(magic, "farbfeld", 8) != 0)
-		fail("strcmp(magic, farbfeld)");
-	if(fread(width, 1, 4, fp) != 4)
-		fail("fread(width)");
-	if(fread(height, 1, 4, fp) != 4)
-		fail("fread(height)");
-	*width = swapped(*width);
-	*height = swapped(*height);
-
-	size = (*width) * (*height) * 8;
-	data = (short*)malloc(size);
-	if(data == 0)
-		fail("malloc");
-	size = fread(data, 2, size/2, fp);
-	/* bad size on windows (?) */
-	/*if(size != (*width) * (*height) * 4){
-		free(data);
-		fail("fread(data)");
-	}*/
-	fclose(fp);
-	return data;
-}
-
 void
 mktex(char *path)
 {
@@ -116,14 +65,18 @@ mktex(char *path)
 }
 
 Sprite*
-sprite(Canvas *c, float sx, float sy)
+sprite(Canvas *c, char *label)
 {
-	Sprite *s = &c->sv[c->si++];
-	s->sx = sx;
-	s->sy = sy;
-	s->u = sx;
-	s->v = sy;
-	return s;
+	Sprite *s;
+	for(int i=0; i<c->si; ++i){
+		if((strcmp(label, c->sv[i].label)) == 0){
+			/*s->ind = i; character gets long head */
+			return &c->sv[i];
+		}
+	}
+
+	printf("sprite: no sprite called %s was found.\n", label);
+	exit(-1);
 }
 
 void

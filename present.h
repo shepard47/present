@@ -15,18 +15,22 @@ struct Dormer
 	int screen;
 	int cursor;
 	Canvas *c;	
-} dm;
+};
+
+extern struct Dormer dm;
 
 struct Canvas
 {
 	int si, ti;
 	Sprite *sv;
-	Text *tv;
+	char *tex;
+	float *vert;
 };
 
 struct Sprite
 {
 	Canvas *c;
+	char *label;
 	float vert[20];
 	int tnum;
 	int tile;
@@ -34,6 +38,7 @@ struct Sprite
 	float sx,sy;
 	float u,v;
 	float tex[8];
+	int ind;
 };
 
 struct Text
@@ -58,12 +63,11 @@ extern void setcurs(int curs);
 extern int closed(void);
 /* canvas.c */
 extern void present(void);
-extern Canvas *canvas(int sn, int tn, char *tex);
-extern void setcanvas(Canvas *c);
+extern Canvas *canvas(char *path);
 extern void freecanvas(Canvas *c);
 extern void mkprog();
 /* sprite.c */
-extern Sprite *sprite(Canvas *c, float sx, float sy);
+extern Sprite *sprite(Canvas *c, char *label);
 extern void mvsprite(Sprite *s, float x, float y);
 extern void augsprite(Sprite *s, float sx, float sy);
 extern void setsprite(Sprite *s, int tile);
