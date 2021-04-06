@@ -30,15 +30,14 @@ struct Canvas
 struct Sprite
 {
 	Canvas *c;
+	int ind;
 	char *label;
-	float vert[20];
+	float *vert;
 	int tnum;
 	int tile;
 	float x,y;
 	float sx,sy;
-	float u,v;
 	float tex[8];
-	int ind;
 };
 
 struct Text

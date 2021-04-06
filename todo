@@ -3,4 +3,6 @@ present:
 	move vertex and texture buffers into canvas
 	separate texture coords from vertex buffer
 	multiply matrices for transformations
+	free memory
+
 

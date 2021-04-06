@@ -107,10 +107,6 @@ canvas(char *path)
 void
 present(void)
 {
-	v = dm.c->vert;
-	int i;
-	for(i=0; i<dm.c->si; ++i)
-		memmove(v + i*20, dm.c->sv[i].vert, sizeof(float)*20);
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 20, dm.c->vert);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

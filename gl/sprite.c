@@ -67,10 +67,10 @@ mktex(char *path)
 Sprite*
 sprite(Canvas *c, char *label)
 {
-	Sprite *s;
 	for(int i=0; i<c->si; ++i){
 		if((strcmp(label, c->sv[i].label)) == 0){
-			/*s->ind = i; character gets long head */
+			c->sv[i].ind = i;
+			c->sv[i].vert = c->vert + i*20;
 			return &c->sv[i];
 		}
 	}
@@ -82,13 +82,26 @@ sprite(Canvas *c, char *label)
 void
 mvsprite(Sprite *s, float x, float y)
 {
-	float vert[] = {
-		x + s->sx, y + s->sy, 0, s->tex[0], s->tex[1],
-		x + s->sx, y - s->sy, 0, s->tex[2], s->tex[3],
-		x - s->sx, y - s->sy, 0, s->tex[4], s->tex[5],
-		x - s->sx, y + s->sy, 0, s->tex[6], s->tex[7],
-	};
-	memmove(s->vert, vert, sizeof(float) * 20);
+	s->vert[0] = x + s->sx;
+	s->vert[1] = y + s->sy;
+	s->vert[2] = 0;
+	s->vert[3] = s->tex[0];
+	s->vert[4] = s->tex[1];
+	s->vert[5] = x + s->sx;
+	s->vert[6] = y - s->sy;
+	s->vert[7] = 0;
+	s->vert[8] = s->tex[2];
+	s->vert[9] = s->tex[3];
+	s->vert[10] = x - s->sx;
+	s->vert[11] = y - s->sy;
+	s->vert[12] = 0;
+	s->vert[13] = s->tex[4];
+	s->vert[14] = s->tex[5];
+	s->vert[15] = x - s->sx;
+	s->vert[16] = y + s->sy;
+	s->vert[17] = 0;
+	s->vert[18] = s->tex[6];
+	s->vert[19] = s->tex[7];
 }
 
 void
@@ -98,11 +111,11 @@ augsprite(Sprite *s, float sx, float sy)
 	s->sy = sy;
 }
 
-void
+/*void
 setsprite(Sprite *s, int tile)
 {
 	s->tex[0] = (s->u / sum)*(tile + 1);
 	s->tex[2] = (s->u / sum)*(tile + 1);
 	s->tex[4] = (s->u / sum)*tile;
 	s->tex[6] = (s->u / sum)*tile;
-}
+}*/

@@ -61,10 +61,6 @@ main()
 				mvsprite(s1, dm.x, dm.y);
 			}
 		}else if(dm.ev == 2){
-			setsprite(s1, tile++);
-			if(tile >= 4)
-				tile = 0;
-			mvsprite(s1, dm.x, dm.y);
 		}
 		present();
 	}
