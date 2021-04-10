@@ -23,8 +23,10 @@ struct Canvas
 {
 	int si, ti;
 	Sprite *sv;
-	char *tex;
+	char *texp;
 	float *vert;
+	float *tex;
+	float rect[12];
 };
 
 struct Sprite
@@ -37,7 +39,7 @@ struct Sprite
 	int tile;
 	float x,y;
 	float sx,sy;
-	float tex[8];
+	float *tex;
 };
 
 struct Text

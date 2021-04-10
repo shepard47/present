@@ -10,11 +10,12 @@
 extern void mkrect(int sn);
 extern void mktex(char *path);
 extern void swapbuf();
+extern void setup(float *vert);
 
 int prog;
 char *vcode;
 char *fcode;
-int va, vb, ib;
+int va, vb, ib, tb;
 int tex;
 float *v;
 float sum;
@@ -73,42 +74,21 @@ canvas(char *path)
 	Canvas *c = cfile(path);
 
 	mkrect(c->si);
-	mktex(c->tex);
+	mktex(c->texp);
+
+	setup(c->rect);
 
 	dm.c = c;
 	return c;
 }
 
-	/*for(i=0; i<c->si; ++i){
-		float sub;
-		for(j=0, sub = 0; j<i; ++j)
-			sub += s[j];
-		c->sv[i].tex[0] = c->sv[i].u / sum;
-		c->sv[i].tex[1] = 1 - sub;
-		c->sv[i].tex[2] = c->sv[i].u / sum;
-		c->sv[i].tex[3] = 1 - sub - c->sv[i].v / sum;
-		c->sv[i].tex[4] = 0;
-		c->sv[i].tex[5] = 1 - sub - c->sv[i].v / sum;
-		c->sv[i].tex[6] = 0;
-		c->sv[i].tex[7] = 1 - sub;
-
-		printf("sv[%d]: %f %f %f %f %f %f %f %f\n", 
-			i,
-			c->sv[i].tex[0],
-			c->sv[i].tex[1],
-			c->sv[i].tex[2],
-			c->sv[i].tex[3],
-			c->sv[i].tex[4],
-			c->sv[i].tex[5],
-			c->sv[i].tex[6],
-			c->sv[i].tex[7] );
-	}*/
-
 void
 present(void)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
-	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 20, dm.c->vert);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 8, dm.c->vert);
+	glBindBuffer(GL_ARRAY_BUFFER, tb);
+	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 8, dm.c->tex);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindTexture(GL_TEXTURE_2D, tex);

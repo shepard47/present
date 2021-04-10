@@ -53,11 +53,12 @@ cfile(char *path)
 	getint(&snum);
 	Canvas *ca = (Canvas*)malloc(sizeof(Canvas)
 		+ sizeof(Sprite) * snum
-		+ sizeof(float) * snum * 20); 
+		+ sizeof(float)*8*snum
+		+ sizeof(float)*8*snum); 
 	ca->sv = (Sprite*)(ca + 1);
-	ca->si = snum;
 	ca->vert = (float*)(ca->sv + snum);
-	printf("sizeof(vert) = %d\n", sizeof(ca->vert));
+	ca->tex = (float*)(ca->vert + snum*8);
+	ca->si = snum;
 
 	printf("snum: %d\n", snum);
 
@@ -78,6 +79,7 @@ cfile(char *path)
 		printf("tnum: %d\n", tnum);
 		fgetc(fp);
 		ca->sv[i].tnum = tnum;
+		ca->sv[i].tex = ca->tex + i*8;
 
 		fscanf(fp, "%f %f %f %f %f %f %f %f", 
 			&ca->sv[i].tex[0],
@@ -90,6 +92,7 @@ cfile(char *path)
 			&ca->sv[i].tex[7]);
 	}
 	if(bin){
+		/* load image */
 	}else{
 		do
 			fgetc(fp);
@@ -102,7 +105,7 @@ cfile(char *path)
 		for(int j=0; j<len; ++j)
 			path[j] = fgetc(fp);
 		printf("path: %s\n", path);
-		ca->tex = path;
+		ca->texp = path;
 	}
 
 	return ca;

@@ -27,14 +27,17 @@ mkrect(int sn)
 	glGenVertexArrays(1, &va);
 	glGenBuffers(1, &vb);
 	glGenBuffers(1, &ib);
+	glGenBuffers(1, &tb);
 	glBindVertexArray(va);
 	glBindBuffer(GL_ARRAY_BUFFER, vb);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * 20, 0, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sn * 8, 0, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ind), ind, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glBindBuffer(GL_ARRAY_BUFFER, tb);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sn * 8, 0, GL_STATIC_DRAW);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -64,13 +67,28 @@ mktex(char *path)
 	}
 }
 
+void
+setup(float *vert)
+{
+	vert[0] = 0.5;
+	vert[1] = 0.5;
+	vert[2] = 0.5;
+	vert[3] = -0.5;
+	vert[4] = -0.5;
+	vert[5] = -0.5;
+	vert[6] = -0.5;
+	vert[7] = 0.5;
+}
+
 Sprite*
 sprite(Canvas *c, char *label)
 {
 	for(int i=0; i<c->si; ++i){
 		if((strcmp(label, c->sv[i].label)) == 0){
 			c->sv[i].ind = i;
-			c->sv[i].vert = c->vert + i*20;
+			c->sv[i].vert = c->vert + i*8;
+			setup(c->sv[i].vert);
+			c->sv[i].c = c;
 			return &c->sv[i];
 		}
 	}
@@ -81,34 +99,20 @@ sprite(Canvas *c, char *label)
 
 void
 mvsprite(Sprite *s, float x, float y)
-{
-	s->vert[0] = x + s->sx;
-	s->vert[1] = y + s->sy;
-	s->vert[2] = 0;
-	s->vert[3] = s->tex[0];
-	s->vert[4] = s->tex[1];
-	s->vert[5] = x + s->sx;
-	s->vert[6] = y - s->sy;
-	s->vert[7] = 0;
-	s->vert[8] = s->tex[2];
-	s->vert[9] = s->tex[3];
-	s->vert[10] = x - s->sx;
-	s->vert[11] = y - s->sy;
-	s->vert[12] = 0;
-	s->vert[13] = s->tex[4];
-	s->vert[14] = s->tex[5];
-	s->vert[15] = x - s->sx;
-	s->vert[16] = y + s->sy;
-	s->vert[17] = 0;
-	s->vert[18] = s->tex[6];
-	s->vert[19] = s->tex[7];
+{ /* SIMD ? */
+	for(int i=0; i<4; ++i){
+		s->vert[i*2] = s->c->rect[i*2] + x;
+		s->vert[i*2+1] = s->c->rect[i*2+1] + y;
+	}
 }
 
 void
-augsprite(Sprite *s, float sx, float sy)
+augsprite(Sprite *s, float x, float y)
 {
-	s->sx = sx;
-	s->sy = sy;
+	for(int i=0; i<4; ++i){
+		s->vert[i*2] = s->c->rect[i*2] * x;
+		s->vert[i*2+1] = s->c->rect[i*2+1] * y;
+	}
 }
 
 /*void
