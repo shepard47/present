@@ -20,6 +20,10 @@ int tex;
 float *v;
 float sum;
 
+float rect[8] = {
+	0.5,0.5,0.5,-0.5,-0.5,-0.5,-0.5,0.5
+};
+
 void
 mkprog(void)
 {
@@ -76,7 +80,7 @@ canvas(char *path)
 	mkrect(c->si);
 	mktex(c->texp);
 
-	setup(c->rect);
+	/*setup(c->rect);*/
 
 	dm.c = c;
 	return c;

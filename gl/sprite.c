@@ -4,10 +4,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <aux/ff.h>
+#include <xmmintrin.h>
 
 extern int tex;
 extern float sum;
 extern int va, vb, ib, tb;
+extern float rect[8];
 
 void
 mkrect(int sn)
@@ -99,19 +101,30 @@ sprite(Canvas *c, char *label)
 
 void
 mvsprite(Sprite *s, float x, float y)
-{ /* SIMD ? */
+{ 
+#ifdef __SSE__
+	__m128 t,r,v;
+	t = _mm_load_ps((float[]){x,y,x,y});
+	r = _mm_load_ps(rect);
+	v = _mm_add_ps(t,r);
+	_mm_storeu_ps(s->vert, v);
+	r = _mm_load_ps(rect+4);
+	v = _mm_add_ps(t,r);
+	_mm_storeu_ps(s->vert+4, v);
+#else
 	for(int i=0; i<4; ++i){
-		s->vert[i*2] = s->c->rect[i*2] + x;
-		s->vert[i*2+1] = s->c->rect[i*2+1] + y;
+		s->vert[i*2] = rect[i*2] + x;
+		s->vert[i*2+1] = rect[i*2+1] + y;
 	}
+#endif
 }
 
 void
 augsprite(Sprite *s, float x, float y)
 {
 	for(int i=0; i<4; ++i){
-		s->vert[i*2] = s->c->rect[i*2] * x;
-		s->vert[i*2+1] = s->c->rect[i*2+1] * y;
+		s->vert[i*2] = rect[i*2] * x;
+		s->vert[i*2+1] = rect[i*2+1] * y;
 	}
 }
 

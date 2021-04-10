@@ -26,7 +26,6 @@ struct Canvas
 	char *texp;
 	float *vert;
 	float *tex;
-	float rect[12];
 };
 
 struct Sprite

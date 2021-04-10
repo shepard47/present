@@ -1,6 +1,5 @@
 present:
 	transformations:
-		move sprite with SIMD
 	free memory!
 
 
