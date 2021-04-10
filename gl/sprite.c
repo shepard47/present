@@ -100,32 +100,29 @@ sprite(Canvas *c, char *label)
 }
 
 void
-mvsprite(Sprite *s, float x, float y)
-{ 
-#ifdef __SSE__
+transprite(Sprite *s, float x, float y, float sx, float sy, float a)
+{
 	__m128 t,r,v;
+
+	/* scale */
+	t = _mm_load_ps((float[]){sx,sy,sx,sy});
+	r = _mm_loadu_ps(rect);
+	v = _mm_mul_ps(t,r);
+	_mm_storeu_ps(s->vert, v);
+	r = _mm_loadu_ps(rect+4);
+	v = _mm_mul_ps(t,r);
+	_mm_storeu_ps(s->vert+4, v);
+
+	/* move */
 	t = _mm_load_ps((float[]){x,y,x,y});
-	r = _mm_load_ps(rect);
+	r = _mm_loadu_ps(s->vert);
 	v = _mm_add_ps(t,r);
 	_mm_storeu_ps(s->vert, v);
-	r = _mm_load_ps(rect+4);
+	r = _mm_loadu_ps(s->vert+4);
 	v = _mm_add_ps(t,r);
 	_mm_storeu_ps(s->vert+4, v);
-#else
-	for(int i=0; i<4; ++i){
-		s->vert[i*2] = rect[i*2] + x;
-		s->vert[i*2+1] = rect[i*2+1] + y;
-	}
-#endif
-}
 
-void
-augsprite(Sprite *s, float x, float y)
-{
-	for(int i=0; i<4; ++i){
-		s->vert[i*2] = rect[i*2] * x;
-		s->vert[i*2+1] = rect[i*2+1] * y;
-	}
+	/* rotate :) */
 }
 
 /*void

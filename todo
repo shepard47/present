@@ -1,5 +1,9 @@
 present:
-	transformations:
+	transformations (+SIMD):
+		augment/scale
+		rotate
+		flip/mirror
+		shear (?)
 	free memory!
 
 

@@ -68,10 +68,7 @@ extern void freecanvas(Canvas *c);
 extern void mkprog();
 /* sprite.c */
 extern Sprite *sprite(Canvas *c, char *label);
-extern void mvsprite(Sprite *s, float x, float y);
-extern void augsprite(Sprite *s, float sx, float sy);
-extern void setsprite(Sprite *s, int tile);
-/* rotate & flip sprite */
+extern void transprite(Sprite *s, float x, float y, float sx, float sy, float a);
 /* text.c */
 extern Text *text(Canvas *c, char *s);
 extern void mvtext();

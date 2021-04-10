@@ -29,12 +29,9 @@ main()
 	s2 = sprite(c, "npc");
 	s3 = sprite(c, "background");
 
-	augsprite(s3, 0.5, 0.3);
-	augsprite(s2, 0.5, 0.5);
-	augsprite(s1, 0.5, 0.5);
-	mvsprite(s1, 0.2, 0.2);
-	mvsprite(s2,0,0);
-	mvsprite(s3, 0.5, 0.5);
+	transprite(s1, -0.7, -0.7, 0.5, 0.5, 0);
+	transprite(s2, 0, 0, 0.5, 0.5, 0);
+	transprite(s3, 0.5, 0.5, 0.5, 0.3, 0);
 
 	float sx = 0.1;
 	float sy = 0.1;
@@ -47,17 +44,15 @@ main()
 		glClearColor(0,1,1,1);
 		glClear(GL_COLOR_BUFFER_BIT);
 		if(dm.ev == 1){
-			mvsprite(s1, dm.x, dm.y);
+			transprite(s1, dm.x, dm.y, sx, sy, 0);
 			if(dm.btn == 8){
 				sx += 0.05;
 				sy += 0.05;
-				augsprite(s1, sx, sy);
-				mvsprite(s1, dm.x, dm.y);
+				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}else if(dm.btn == 16){
 				sx -= 0.05;
 				sy -= 0.05;
-				augsprite(s1, sx, sy);
-				mvsprite(s1, dm.x, dm.y);
+				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
 		}
