@@ -14,7 +14,7 @@ DEF=\
 	-DFRAG=\"$(frag)\"
 
 TARG: $(OFILES)
-	$(cc) -o $(TARG) $(OFILES) -Wall $(ln)
+	$(cc) -o $(TARG) $(OFILES) -Wall $(ln) -lm
 %.o: %.c
 	$(cc) -c $^ -o $@ -I. $(DEF)
 clean:

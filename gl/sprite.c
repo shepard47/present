@@ -5,6 +5,7 @@
 #include <string.h>
 #include <aux/ff.h>
 #include <xmmintrin.h>
+#include <math.h>
 
 extern int tex;
 extern float sum;
@@ -104,12 +105,18 @@ transprite(Sprite *s, float x, float y, float sx, float sy, float a)
 {
 	__m128 t,r,v;
 
+	/* rotate SIMD */
+	for(int i=0; i<4; ++i){
+		s->vert[i*2] = rect[i*2] * cos(a) - rect[i*2+1] * sin(a);
+		s->vert[i*2+1] = rect[i*2] * sin(a) + rect[i*2+1] * cos(a);
+	}
+
 	/* scale */
 	t = _mm_load_ps((float[]){sx,sy,sx,sy});
-	r = _mm_loadu_ps(rect);
+	r = _mm_loadu_ps(s->vert);
 	v = _mm_mul_ps(t,r);
 	_mm_storeu_ps(s->vert, v);
-	r = _mm_loadu_ps(rect+4);
+	r = _mm_loadu_ps(s->vert+4);
 	v = _mm_mul_ps(t,r);
 	_mm_storeu_ps(s->vert+4, v);
 
@@ -121,8 +128,6 @@ transprite(Sprite *s, float x, float y, float sx, float sy, float a)
 	r = _mm_loadu_ps(s->vert+4);
 	v = _mm_add_ps(t,r);
 	_mm_storeu_ps(s->vert+4, v);
-
-	/* rotate :) */
 }
 
 /*void

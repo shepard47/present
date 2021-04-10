@@ -1,6 +1,7 @@
 #include <present.h>
 #include <stdio.h>
 #include <epoxy/gl.h>
+#include <math.h>
 
 Canvas *c;
 Sprite *s1;
@@ -29,14 +30,16 @@ main()
 	s2 = sprite(c, "npc");
 	s3 = sprite(c, "background");
 
-	transprite(s1, -0.7, -0.7, 0.5, 0.5, 0);
-	transprite(s2, 0, 0, 0.5, 0.5, 0);
-	transprite(s3, 0.5, 0.5, 0.5, 0.3, 0);
+	transprite(s1, -0.7, -0.7, 0.5, 0.5, 2.5);
+	transprite(s2, 0, 0, 0.5, 0.5, 1);
+	transprite(s3, 0.5, 0.5, 0.5, 0.3, 3.14);
 
 	float sx = 0.1;
 	float sy = 0.1;
 
 	int tile = 0;
+
+	printf("cos(pi) = %lf\n", cos(3.1415));
 
 	for(;;){
 		readev();
