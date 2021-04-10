@@ -80,8 +80,6 @@ canvas(char *path)
 	mkrect(c->si);
 	mktex(c->texp);
 
-	/*setup(c->rect);*/
-
 	dm.c = c;
 	return c;
 }

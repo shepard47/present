@@ -1,9 +1,20 @@
 present:
-	transformations (+SIMD):
-		augment/scale
-		rotate
+	canvas:
+		editor
+		binary file loader
+	farbfeld fread bad size (on ms windows)
+	UTF-8:
+		win32
+		xlib (+hide cursor)
+	transformations:
+		tiles/animation
+		rotate (+SIMD)
 		flip/mirror
-		shear (?)
 	free memory!
+	implementations:
+		d3d (WIP)
+		wayland
+		xcb + vulkan
+
 
 

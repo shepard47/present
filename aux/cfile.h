@@ -60,8 +60,6 @@ cfile(char *path)
 	ca->tex = (float*)(ca->vert + snum*8);
 	ca->si = snum;
 
-	printf("snum: %d\n", snum);
-
 	for(i=0; i<snum; ++i){
 		do
 			c = fgetc(fp);
@@ -71,12 +69,10 @@ cfile(char *path)
 		len = 0;
 		getlen();
 		ca->sv[i].label = label(&pos, len);
-		printf("label: %s\n", ca->sv[i].label);
 
 		tnum = 0;
 		fgetc(fp);
 		getint(&tnum);
-		printf("tnum: %d\n", tnum);
 		fgetc(fp);
 		ca->sv[i].tnum = tnum;
 		ca->sv[i].tex = ca->tex + i*8;
@@ -104,7 +100,6 @@ cfile(char *path)
 		char *path = (char*)calloc(len, len);
 		for(int j=0; j<len; ++j)
 			path[j] = fgetc(fp);
-		printf("path: %s\n", path);
 		ca->texp = path;
 	}
 
