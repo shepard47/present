@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <epoxy/gl.h>
 #include <math.h>
+#include <stdlib.h>
 
 Canvas *c;
 Sprite *s1;
@@ -36,16 +37,14 @@ main()
 
 	float sx = 0.1;
 	float sy = 0.1;
-
 	int tile = 0;
-
-	printf("cos(pi) = %lf\n", cos(3.1415));
 
 	for(;;){
 		readev();
 
 		glClearColor(0,1,1,1);
 		glClear(GL_COLOR_BUFFER_BIT);
+
 		if(dm.ev == 1){
 			transprite(s1, dm.x, dm.y, sx, sy, 0);
 			if(dm.btn == 8){
@@ -58,6 +57,8 @@ main()
 				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
+			closed();
+			exit(-1);
 		}
 		present();
 	}

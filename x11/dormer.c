@@ -1,8 +1,8 @@
 #include <present.h>
 #include <X11/Xlib.h>
-#include <X11/XKBlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xatom.h>
+#include <X11/extensions/Xfixes.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -14,6 +14,8 @@ static Atom del;
 static XEvent e;
 static Cursor c;
 struct Dormer dm;
+static XIM xim;
+static XIC xic;
 
 static void
 fail(char *func)
@@ -47,6 +49,12 @@ winit(char *label)
 	XMapWindow(dm.dis, win);
 
 	setcurs(dm.cursor);
+
+	xim = XOpenIM(dm.dis, 0, 0, 0);
+	if(xim != 0)
+		xic = XCreateIC(xim, XNInputStyle, XIMPreeditNothing|XIMStatusNothing, 
+				XNClientWindow, win, XNFocusWindow, win, 0);
+
 	del = XInternAtom(dm.dis, "WM_DELETE_WINDOW", False);
 	XSetWMProtocols(dm.dis, win, &del, 1);
 }
@@ -56,7 +64,7 @@ cursor(int curs)
 {
 	switch(curs){
 	case Chide:
-		/*XFixesHideCursor(dm.dis, DefaultRootWindow(dm.dis));*/
+		XFixesHideCursor(dm.dis, DefaultRootWindow(dm.dis));
 		break;
 	case Carrow:
 		return 2;
@@ -89,11 +97,30 @@ void
 handle(void)
 {
 	XNextEvent(dm.dis, &e);
+	if (XFilterEvent(&e, None))
+		handle();
 	switch(e.type){
+	case FocusIn:
+		if(xic != 0)
+			XSetICFocus(xic);
+		break;
+	case FocusOut:
+		if (xic)
+			XUnsetICFocus(xic);
+		break;
 	case KeyPress:
 		dm.ev = 2;
-		dm.key = XkbKeycodeToKeysym(dm.dis, e.xkey.keycode, 0, 0); /* TODO: UTF-8 */
-		break;
+		
+		int len;
+		char buf[8];
+		KeySym key;
+		Status status;
+
+		if(xic != 0)
+			len = Xutf8LookupString(xic, &e.xkey, buf, 8, &key, &status);
+		printf("%s\n", buf);
+
+		/* bad capitals + characters */
 	case ButtonPress:
 		dm.ev = 1;
 		switch(e.xbutton.button){

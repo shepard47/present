@@ -24,7 +24,7 @@ ff(char *path, int *width, int *height)
 	char magic[8];
 	short *data;
 	int size;
-	fp = fopen(path, "r");
+	fp = fopen(path, "rb");
 	if(fp == 0)
 		fail("fopen");
 	if(fread(magic, 1, 8, fp) != 8)
@@ -43,11 +43,10 @@ ff(char *path, int *width, int *height)
 	if(data == 0)
 		fail("malloc");
 	size = fread(data, 2, size/2, fp);
-	/* bad size on windows (?) */
-	/*if(size != (*width) * (*height) * 4){
+	if(size != (*width) * (*height) * 4){
 		free(data);
 		fail("fread(data)");
-	}*/
+	}
 	fclose(fp);
 	return data;
 }

@@ -2,10 +2,10 @@ present:
 	canvas:
 		editor
 		binary file loader
-	farbfeld fread bad size (on ms windows)
+	farbfeld fread bad size (test)
 	UTF-8:
 		win32
-		xlib (+hide cursor)
+		xlib
 	transformations:
 		tiles/animation
 		rotate (+SIMD)

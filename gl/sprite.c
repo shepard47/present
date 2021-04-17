@@ -130,7 +130,8 @@ transprite(Sprite *s, float x, float y, float sx, float sy, float a)
 	_mm_storeu_ps(s->vert+4, v);
 }
 
-/*void
+/*
+void
 setsprite(Sprite *s, int tile)
 {
 	s->tex[0] = (s->u / sum)*(tile + 1);

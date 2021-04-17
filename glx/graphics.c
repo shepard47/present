@@ -62,7 +62,7 @@ grinit(void)
 	swa.event_mask =	KeyPressMask	| KeyReleaseMask	|
 						ButtonPressMask	| ButtonReleaseMask	|
 						EnterWindowMask	| LeaveWindowMask	|
-						ExposureMask	| PointerMotionMask;
+						ExposureMask	| PointerMotionMask | FocusChangeMask;
 
 	win = XCreateWindow(dm.dis, root, 0, 0, dm.width, dm.height, 0, 0, InputOutput, vis, mask, &swa);
 
