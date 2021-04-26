@@ -3,11 +3,14 @@
 #include <epoxy/gl.h>
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 
 Canvas *c;
 Sprite *s1;
 Sprite *s2;
 Sprite *s3;
+
+struct timespec s;
 
 int
 closed(void)
@@ -25,7 +28,7 @@ main()
 	dm.cursor = Ccross;
 	dm.screen = 0;
 	winit("present");
-	
+
 	c = canvas("res/test.ca");
 	s1 = sprite(c, "character");
 	s2 = sprite(c, "npc");
@@ -57,9 +60,11 @@ main()
 				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
-			closed();
-			exit(-1);
+			setsprite(s1, tile++);
 		}
 		present();
+
+		clock_gettime(CLOCK_MONOTONIC, &s);
+		printf("time: %lf\n", s.tv_sec);
 	}
 }

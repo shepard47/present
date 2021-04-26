@@ -92,6 +92,9 @@ sprite(Canvas *c, char *label)
 			c->sv[i].vert = c->vert + i*8;
 			setup(c->sv[i].vert);
 			c->sv[i].c = c;
+			c->sv[i].w = c->sv[i].tex[0] - c->sv[i].tex[4];
+			c->sv[i].first = malloc(sizeof(float)*8);
+			memmove(c->sv[i].first, c->sv[i].tex, sizeof(float)*8);
 			return &c->sv[i];
 		}
 	}
@@ -130,12 +133,11 @@ transprite(Sprite *s, float x, float y, float sx, float sy, float a)
 	_mm_storeu_ps(s->vert+4, v);
 }
 
-/*
+
 void
 setsprite(Sprite *s, int tile)
 {
-	s->tex[0] = (s->u / sum)*(tile + 1);
-	s->tex[2] = (s->u / sum)*(tile + 1);
-	s->tex[4] = (s->u / sum)*tile;
-	s->tex[6] = (s->u / sum)*tile;
-}*/
+	/* SSE maybe? */
+	for(int i=0; i<4; ++i)
+		s->tex[i*2] = s->first[i*2] + tile * s->w;
+}

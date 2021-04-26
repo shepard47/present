@@ -14,7 +14,7 @@ struct Dormer
 	int height;
 	int screen;
 	int cursor;
-	Canvas *c;	
+	Canvas *c;
 };
 
 extern struct Dormer dm;
@@ -37,8 +37,9 @@ struct Sprite
 	int tnum;
 	int tile;
 	float x,y;
-	float sx,sy;
 	float *tex;
+	float w;
+	float *first;
 };
 
 struct Text
@@ -69,6 +70,7 @@ extern void mkprog();
 /* sprite.c */
 extern Sprite *sprite(Canvas *c, char *label);
 extern void transprite(Sprite *s, float x, float y, float sx, float sy, float a);
+extern void setsprite(Sprite *s, int tile);
 /* text.c */
 extern Text *text(Canvas *c, char *s);
 extern void mvtext();

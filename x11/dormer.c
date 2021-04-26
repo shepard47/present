@@ -5,6 +5,7 @@
 #include <X11/extensions/Xfixes.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 extern void grinit();
 extern void resized();
@@ -18,7 +19,7 @@ static XIM xim;
 static XIC xic;
 
 static void
-fail(char *func)
+die(char *func)
 {
 	perror(func);
 	XCloseDisplay(dm.dis);
@@ -40,7 +41,7 @@ winit(char *label)
 {
 	dm.dis = XOpenDisplay(0);
 	if(dm.dis == 0)
-		fail("XOpendDisplay");
+		die("XOpenDisplay");
 	grinit();
 	dm.win = &win;
 	XStoreName(dm.dis, win, label);
@@ -52,7 +53,7 @@ winit(char *label)
 
 	xim = XOpenIM(dm.dis, 0, 0, 0);
 	if(xim != 0)
-		xic = XCreateIC(xim, XNInputStyle, XIMPreeditNothing|XIMStatusNothing, 
+		xic = XCreateIC(xim, XNInputStyle, XIMPreeditNothing|XIMStatusNothing,
 				XNClientWindow, win, XNFocusWindow, win, 0);
 
 	del = XInternAtom(dm.dis, "WM_DELETE_WINDOW", False);
@@ -93,6 +94,19 @@ setcurs(int curs)
 	XDefineCursor(dm.dis, win, c);
 }
 
+static void
+rev(void *start, int size)
+{
+	char *lo = start;
+	char *hi = start + size - 1;
+	char swap;
+	while (lo < hi){
+		swap = *lo;
+		*lo++ = *hi;
+		*hi-- = swap;
+	}
+}
+
 void
 handle(void)
 {
@@ -105,22 +119,31 @@ handle(void)
 			XSetICFocus(xic);
 		break;
 	case FocusOut:
-		if (xic)
+		if (xic != 0)
 			XUnsetICFocus(xic);
 		break;
 	case KeyPress:
 		dm.ev = 2;
-		
+
 		int len;
-		char buf[8];
+		char buf[4];
 		KeySym key;
 		Status status;
 
 		if(xic != 0)
-			len = Xutf8LookupString(xic, &e.xkey, buf, 8, &key, &status);
-		printf("%s\n", buf);
+			len = Xutf8LookupString(xic, &e.xkey, buf, 4, &key, &status);
+		rev(buf, strlen(buf));
 
-		/* bad capitals + characters */
+		switch(key){
+		case XK_BackSpace:
+			dm.key = 0x08;
+			break;
+		default:
+			dm.key = *(int*)buf;
+		}
+		printf("%x\n", dm.key);
+		/* mod & ctl */
+		break;
 	case ButtonPress:
 		dm.ev = 1;
 		switch(e.xbutton.button){

@@ -3,9 +3,8 @@ present:
 		editor
 		binary file loader
 	farbfeld fread bad size (test)
-	UTF-8:
-		win32
-		xlib
+	xlib: modkeys + timer
+	win32: utf-8 + modkeys + timer
 	transformations:
 		tiles/animation
 		rotate (+SIMD)
@@ -15,6 +14,3 @@ present:
 		d3d (WIP)
 		wayland
 		xcb + vulkan
-
-
-
