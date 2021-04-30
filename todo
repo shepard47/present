@@ -1,16 +1,11 @@
 present:
-	canvas:
-		editor
-		binary file loader
+	binary canvas file
 	farbfeld fread bad size (test)
 	xlib: modkeys + timer
 	win32: utf-8 + modkeys + timer
-	transformations:
-		tiles/animation
-		rotate (+SIMD)
-		flip/mirror
 	free memory!
 	implementations:
 		d3d (WIP)
 		wayland
 		xcb + vulkan
+

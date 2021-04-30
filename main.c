@@ -6,11 +6,8 @@
 #include <time.h>
 
 Canvas *c;
-Sprite *s1;
-Sprite *s2;
-Sprite *s3;
-
-struct timespec s;
+Canvas *yo;
+Sprite *s1, *s2, *s3, *s4, *s5, *s6, *s7;
 
 int
 closed(void)
@@ -23,6 +20,10 @@ closed(void)
 int
 main()
 {
+	long m;
+	int s;
+	struct timespec sp;
+
 	dm.width = 800;
 	dm.height = 600;
 	dm.cursor = Ccross;
@@ -37,6 +38,20 @@ main()
 	transprite(s1, -0.7, -0.7, 0.5, 0.5, 2.5);
 	transprite(s2, 0, 0, 0.5, 0.5, 1);
 	transprite(s3, 0.5, 0.5, 0.5, 0.3, 3.14);
+
+	yo = canvas("res/yo.ca");
+	dm.c = c;
+
+	printf("%d\n", yo->si);
+	s4 = sprite(yo, "pirate.png");
+	s5 = sprite(yo, "char.png");
+	s6 = sprite(yo, "axe.jpg");
+	s7 = sprite(yo, "nazi.gif");
+
+	transprite(s4, 0, 0, 0.5, 0.5, 1);
+	transprite(s5, 0.7, 0.7, 1, 1, 1);
+	transprite(s6, -0.7, -0.7, -1, -1, 1);
+	transprite(s7, -0.5, -0.5, 0.1, 0.1, 1);
 
 	float sx = 0.1;
 	float sy = 0.1;
@@ -60,11 +75,12 @@ main()
 				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
+			if(dm.key == 'l')
+				dm.c = c;
+			if(dm.key == 'h')
+				dm.c = yo;
 			setsprite(s1, tile++);
 		}
 		present();
-
-		clock_gettime(CLOCK_MONOTONIC, &s);
-		printf("time: %lf\n", s.tv_sec);
 	}
 }

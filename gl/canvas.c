@@ -8,7 +8,7 @@
 #include <aux/src.h>
 
 extern void mkrect(int sn);
-extern void mktex(char *path);
+extern void mktex(char *path, int *id);
 extern void swapbuf();
 extern void setup(float *vert);
 
@@ -78,7 +78,7 @@ canvas(char *path)
 	Canvas *c = cfile(path);
 
 	mkrect(c->si);
-	mktex(c->texp);
+	mktex(c->texp, &c->tid);
 
 	dm.c = c;
 	return c;
@@ -93,7 +93,7 @@ present(void)
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 8, dm.c->tex);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-	glBindTexture(GL_TEXTURE_2D, tex);
+	glBindTexture(GL_TEXTURE_2D, dm.c->tid);
 	glUseProgram(prog);
 	glBindVertexArray(va);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);

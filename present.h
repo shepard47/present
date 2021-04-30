@@ -26,6 +26,7 @@ struct Canvas
 	char *texp;
 	float *vert;
 	float *tex;
+	int tid;
 };
 
 struct Sprite

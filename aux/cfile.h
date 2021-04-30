@@ -2,40 +2,36 @@ static FILE *fp;
 static short bin;
 static int snum = 0;
 static int i;
-static int len = 0;
-static fpos_t pos;
-static int c;
-static int tnum;
 
-void
-getint(int *num)
+static void
+getint(int *num, int *c)
 {
-	c = fgetc(fp);
-	if(c==' ' || c=='\t' || c=='\n')
-		c = fgetc(fp);
-	if(isdigit(c)){
+	*c = fgetc(fp);
+	if(*c==' ' || *c=='\t' || *c=='\n')
+		*c = fgetc(fp);
+	if(isdigit(*c)){
 		*num *= 10;
-		*num += c-'0';
-		getint(num);		
+		*num += *c-'0';
+		getint(num, c);
 	}else{
-		ungetc(c, fp);
+		ungetc(*c, fp);
 		return;
 	}
 }
 
-void
-getlen()
+static void
+getlen(int *len, int *c)
 {
-	c = fgetc(fp);
-	if(c==' ' || c=='\t' || c=='\n')
-		c = fgetc(fp);
-	if(c != ':' && c != ';'){
-		len++;
-		getlen();
+	*c = fgetc(fp);
+	if(*c==' ' || *c=='\t' || *c=='\n')
+		*c = fgetc(fp);
+	if(*c != ':' && *c != ';'){
+		(*len)++;
+		getlen(len, c);
 	}
 }
 
-char*
+static char*
 label(fpos_t *pos, int len)
 {
 	fsetpos(fp, pos);
@@ -48,13 +44,18 @@ label(fpos_t *pos, int len)
 Canvas*
 cfile(char *path)
 {
+	int c;
+	int tnum = 0;
+	snum = 0;
+	int len = 0;
+	fpos_t pos;
 	fp = fopen(path, "r");
 	bin = fgetc(fp) - '0';
-	getint(&snum);
+	getint(&snum, &c);
 	Canvas *ca = (Canvas*)malloc(sizeof(Canvas)
 		+ sizeof(Sprite) * snum
 		+ sizeof(float)*8*snum
-		+ sizeof(float)*8*snum); 
+		+ sizeof(float)*8*snum);
 	ca->sv = (Sprite*)(ca + 1);
 	ca->vert = (float*)(ca->sv + snum);
 	ca->tex = (float*)(ca->vert + snum*8);
@@ -67,19 +68,19 @@ cfile(char *path)
 		ungetc(c, fp);
 		fgetpos(fp, &pos);
 		len = 0;
-		getlen();
+		getlen(&len, &c);
 		ca->sv[i].label = label(&pos, len);
 
 		tnum = 0;
 		fgetc(fp);
-		getint(&tnum);
+		getint(&tnum, &c);
 		fgetc(fp);
 		ca->sv[i].tnum = tnum;
 		ca->sv[i].tex = ca->tex + i*8;
 
-		fscanf(fp, "%f %f %f %f %f %f %f %f", 
+		fscanf(fp, "%f %f %f %f %f %f %f %f",
 			&ca->sv[i].tex[0],
-			&ca->sv[i].tex[1], 
+			&ca->sv[i].tex[1],
 			&ca->sv[i].tex[2],
 			&ca->sv[i].tex[3],
 			&ca->sv[i].tex[4],
@@ -95,7 +96,7 @@ cfile(char *path)
 		while(c==' ' || c=='\n' || c=='\t');
 		fgetpos(fp, &pos);
 		len = 0;
-		getlen();
+		getlen(&len, &c);
 		fsetpos(fp, &pos);
 		char *path = (char*)calloc(len, len);
 		for(int j=0; j<len; ++j)
@@ -103,6 +104,6 @@ cfile(char *path)
 		ca->texp = path;
 	}
 
+	fclose(fp);
 	return ca;
 }
-

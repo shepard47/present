@@ -7,7 +7,6 @@
 #include <xmmintrin.h>
 #include <math.h>
 
-extern int tex;
 extern float sum;
 extern int va, vb, ib, tb;
 extern float rect[8];
@@ -48,13 +47,13 @@ mkrect(int sn)
 }
 
 void
-mktex(char *path)
+mktex(char *path, int *id)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	unsigned char *data;
-	glGenTextures(1, &tex);
-	glBindTexture(GL_TEXTURE_2D, tex);
+	glGenTextures(1, id);
+	glBindTexture(GL_TEXTURE_2D, *id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
