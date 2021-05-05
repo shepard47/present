@@ -27,6 +27,7 @@ struct Canvas
 	float *vert;
 	float *tex;
 	int tid;
+	int va, vb, ib, tb;
 };
 
 struct Sprite

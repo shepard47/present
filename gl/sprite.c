@@ -12,9 +12,10 @@ extern int va, vb, ib, tb;
 extern float rect[8];
 
 void
-mkrect(int sn)
+mkrect(Canvas *c)
 {
 	int i;
+	int sn = c->si;
 	int ind[sn*6];
 
 	for(i=0; i<sn; ++i){
@@ -26,18 +27,18 @@ mkrect(int sn)
 		ind[i*6 + 5] = 3 + i*4;
 	}
 
-	glGenVertexArrays(1, &va);
-	glGenBuffers(1, &vb);
-	glGenBuffers(1, &ib);
-	glGenBuffers(1, &tb);
-	glBindVertexArray(va);
-	glBindBuffer(GL_ARRAY_BUFFER, vb);
+	glGenVertexArrays(1, &c->va);
+	glGenBuffers(1, &c->vb);
+	glGenBuffers(1, &c->ib);
+	glGenBuffers(1, &c->tb);
+	glBindVertexArray(c->va);
+	glBindBuffer(GL_ARRAY_BUFFER, c->vb);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sn * 8, 0, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, c->ib);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(ind), ind, GL_STATIC_DRAW);
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, tb);
+	glBindBuffer(GL_ARRAY_BUFFER, c->tb);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * sn * 8, 0, GL_STATIC_DRAW);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
@@ -67,6 +68,7 @@ mktex(char *path, int *id)
 		printf("Failed to load texture: %s\n", path);
 		exit(-1);
 	}
+	free(data);
 }
 
 void

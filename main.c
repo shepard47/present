@@ -14,6 +14,7 @@ closed(void)
 {
 	puts("closing...");
 	freecanvas(c);
+	freecanvas(yo);
 	return 1;
 }
 
@@ -30,17 +31,8 @@ main()
 	dm.screen = 0;
 	winit("present");
 
-	c = canvas("res/test.ca");
-	s1 = sprite(c, "character");
-	s2 = sprite(c, "npc");
-	s3 = sprite(c, "background");
-
-	transprite(s1, -0.7, -0.7, 0.5, 0.5, 2.5);
-	transprite(s2, 0, 0, 0.5, 0.5, 1);
-	transprite(s3, 0.5, 0.5, 0.5, 0.3, 3.14);
-
 	yo = canvas("res/yo.ca");
-	dm.c = c;
+	//dm.c = c;
 
 	printf("%d\n", yo->si);
 	s4 = sprite(yo, "pirate.png");
@@ -52,6 +44,15 @@ main()
 	transprite(s5, 0.7, 0.7, 1, 1, 1);
 	transprite(s6, -0.7, -0.7, -1, -1, 1);
 	transprite(s7, -0.5, -0.5, 0.1, 0.1, 1);
+
+	c = canvas("res/test.ca");
+	s1 = sprite(c, "character");
+	s2 = sprite(c, "npc");
+	s3 = sprite(c, "background");
+
+	transprite(s1, -0.7, -0.7, 0.5, 0.5, 2.5);
+	transprite(s2, 0, 0, 0.5, 0.5, 1);
+	transprite(s3, 0.5, 0.5, 0.5, 0.3, 3.14);
 
 	float sx = 0.1;
 	float sy = 0.1;
@@ -79,6 +80,10 @@ main()
 				dm.c = c;
 			if(dm.key == 'h')
 				dm.c = yo;
+			if(dm.key == 'q'){
+				closed();
+				exit(0);
+			}
 			setsprite(s1, tile++);
 		}
 		present();

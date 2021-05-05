@@ -7,7 +7,7 @@
 #include <aux/cfile.h>
 #include <aux/src.h>
 
-extern void mkrect(int sn);
+extern void mkrect(Canvas *c);
 extern void mktex(char *path, int *id);
 extern void swapbuf();
 extern void setup(float *vert);
@@ -15,7 +15,6 @@ extern void setup(float *vert);
 int prog;
 char *vcode;
 char *fcode;
-int va, vb, ib, tb;
 int tex;
 float *v;
 float sum;
@@ -64,6 +63,8 @@ mkprog(void)
 	}
 	glDeleteShader(vs);
 	glDeleteShader(fs);
+	free(vcode);
+	free(fcode);
 }
 
 void
@@ -77,7 +78,7 @@ canvas(char *path)
 {
 	Canvas *c = cfile(path);
 
-	mkrect(c->si);
+	mkrect(c);
 	mktex(c->texp, &c->tid);
 
 	dm.c = c;
@@ -87,16 +88,16 @@ canvas(char *path)
 void
 present(void)
 {
-	glBindBuffer(GL_ARRAY_BUFFER, vb);
+	glBindBuffer(GL_ARRAY_BUFFER, dm.c->vb);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 8, dm.c->vert);
-	glBindBuffer(GL_ARRAY_BUFFER, tb);
+	glBindBuffer(GL_ARRAY_BUFFER, dm.c->tb);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(float) * dm.c->si * 8, dm.c->tex);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glBindTexture(GL_TEXTURE_2D, dm.c->tid);
 	glUseProgram(prog);
-	glBindVertexArray(va);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ib);
+	glBindVertexArray(dm.c->va);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, dm.c->ib);
 	glDrawElements(GL_TRIANGLES, dm.c->si*6, GL_UNSIGNED_INT, 0);
 	swapbuf();
 }
