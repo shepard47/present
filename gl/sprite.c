@@ -1,5 +1,5 @@
 #include <present.h>
-#include <epoxy/gl.h>
+#include <aux/gl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,7 +59,7 @@ mktex(char *path, int *id)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	int width, height, chan;
+	int width, height;
 	data = ff(path, &width, &height);
 	if(data){
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT, data);
@@ -87,7 +87,8 @@ setup(float *vert)
 Sprite*
 sprite(Canvas *c, char *label)
 {
-	for(int i=0; i<c->si; ++i){
+	int i;
+	for(i=0; i<c->si; ++i){
 		if((strcmp(label, c->sv[i].label)) == 0){
 			c->sv[i].ind = i;
 			c->sv[i].vert = c->vert + i*8;
@@ -110,7 +111,8 @@ transprite(Sprite *s, float x, float y, float sx, float sy, float a)
 	__m128 t,r,v;
 
 	/* rotate SIMD */
-	for(int i=0; i<4; ++i){
+	int i;
+	for(i=0; i<4; ++i){
 		s->vert[i*2] = rect[i*2] * cos(a) - rect[i*2+1] * sin(a);
 		s->vert[i*2+1] = rect[i*2] * sin(a) + rect[i*2+1] * cos(a);
 	}
@@ -139,6 +141,7 @@ void
 setsprite(Sprite *s, int tile)
 {
 	/* SSE maybe? */
-	for(int i=0; i<4; ++i)
+	int i;
+	for(i=0; i<4; ++i)
 		s->tex[i*2] = s->first[i*2] + tile * s->w;
 }

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <epoxy/gl.h>
+#include <aux/gl.h>
 #include <ctype.h>
 #include <aux/cfile.h>
 #include <aux/src.h>

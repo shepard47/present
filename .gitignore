@@ -2,3 +2,5 @@ mkconfig
 *.o
 pres
 *.exe
+*.core
+

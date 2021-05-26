@@ -30,7 +30,8 @@ grinit(void)
 	int fbcnt;
 	fbc = glXChooseFBConfig(dm.dis, scr, fbc_attr, &fbcnt);
 	int best_fbc = -1, worst_fbc = -1, best_samp = -1, worst_samp = 999;
-	for (int i = 0; i < fbcnt; ++i) {
+	int i;
+	for (i = 0; i < fbcnt; ++i) {
 		XVisualInfo *tvi = glXGetVisualFromFBConfig(dm.dis, fbc[i]);
 		if (tvi) {
 			int samp_buf, samples;
@@ -51,7 +52,6 @@ grinit(void)
 	Visual *vis = vi->visual;
 	Window root = XRootWindow(dm.dis, vi->screen);
 	Colormap cmap = XCreateColormap(dm.dis, root, vis, AllocNone);
-	int depth = vi->depth;
 
 	int mask = CWBackPixel | CWBorderPixel | CWColormap | CWEventMask;
 	XSetWindowAttributes swa;
@@ -76,6 +76,8 @@ grinit(void)
 	glXMakeCurrent(dm.dis, win, ctx);
 	XFree(fbc);
 	XFree(vi);
+	
+	flextInit();
 
 	mkprog();
 }

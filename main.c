@@ -1,9 +1,9 @@
 #include <present.h>
 #include <stdio.h>
-#include <epoxy/gl.h>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <aux/gl.h>
 
 Canvas *c;
 Canvas *yo;
@@ -21,10 +21,6 @@ closed(void)
 int
 main()
 {
-	long m;
-	int s;
-	struct timespec sp;
-
 	dm.width = 800;
 	dm.height = 600;
 	dm.cursor = Ccross;
@@ -32,7 +28,6 @@ main()
 	winit("present");
 
 	yo = canvas("res/yo.ca");
-	//dm.c = c;
 
 	printf("%d\n", yo->si);
 	s4 = sprite(yo, "pirate.png");

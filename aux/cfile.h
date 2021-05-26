@@ -36,7 +36,8 @@ label(fpos_t *pos, int len)
 {
 	fsetpos(fp, pos);
 	char *name = (char*)calloc(len, len);
-	for(int j=0; j<len; ++j)
+	int j;
+	for(j=0; j<len; ++j)
 		name[j] = fgetc(fp);
 	return name;
 }
@@ -99,7 +100,8 @@ cfile(char *path)
 		getlen(&len, &c);
 		fsetpos(fp, &pos);
 		char *path = (char*)calloc(len, len);
-		for(int j=0; j<len; ++j)
+		int j;
+		for(j=0; j<len; ++j)
 			path[j] = fgetc(fp);
 		ca->texp = path;
 	}

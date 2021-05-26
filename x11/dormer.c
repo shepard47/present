@@ -54,7 +54,7 @@ winit(char *label)
 	xim = XOpenIM(dm.dis, 0, 0, 0);
 	if(xim != 0)
 		xic = XCreateIC(xim, XNInputStyle, XIMPreeditNothing|XIMStatusNothing,
-				XNClientWindow, win, XNFocusWindow, win, 0);
+				XNClientWindow, win, XNFocusWindow, win, (void*)0);
 
 	del = XInternAtom(dm.dis, "WM_DELETE_WINDOW", False);
 	XSetWMProtocols(dm.dis, win, &del, 1);
@@ -84,6 +84,7 @@ cursor(int curs)
 	case Cmove:
 		return 52;
 	}
+	return 0;
 }
 
 void
