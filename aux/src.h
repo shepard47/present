@@ -5,7 +5,7 @@ src(char *path)
 	long size;
 	char *buf;
 
-	fp = fopen(path, "rb");
+	fp = fopen(path, "r");
 	if(fp == 0){
 		perror("fopen");
 		exit(-1);
@@ -14,9 +14,9 @@ src(char *path)
 	size = ftell(fp);
 	rewind(fp);
 	buf = (char*)calloc(size, sizeof(char));
-	fread(buf, 1, size, fp);
+	fread(buf, 1, size - 1, fp);
 	fclose(fp);
-
+	
 	return buf;
 }
 

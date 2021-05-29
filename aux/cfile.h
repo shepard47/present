@@ -22,11 +22,17 @@ getint(int *num, int *c)
 static void
 getlen(int *len, int *c)
 {
+	puts("fgetc");
 	*c = fgetc(fp);
-	if(*c==' ' || *c=='\t' || *c=='\n')
+	if(*c==' ' || *c=='\t' || *c=='\n'){
+		puts("fgetc");
 		*c = fgetc(fp);
+	}
 	if(*c != ':' && *c != ';'){
+		puts("len inc");
 		(*len)++;
+		printf("len: %d\n", *len);
+		puts("getlen");
 		getlen(len, c);
 	}
 }
@@ -53,6 +59,7 @@ cfile(char *path)
 	fp = fopen(path, "r");
 	bin = fgetc(fp) - '0';
 	getint(&snum, &c);
+
 	Canvas *ca = (Canvas*)malloc(sizeof(Canvas)
 		+ sizeof(Sprite) * snum
 		+ sizeof(float)*8*snum
@@ -66,6 +73,7 @@ cfile(char *path)
 		do
 			c = fgetc(fp);
 		while(c==' ' || c=='\t' || c=='\n');
+		printf("char: %c\n", c);
 		ungetc(c, fp);
 		fgetpos(fp, &pos);
 		len = 0;

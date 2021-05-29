@@ -1,5 +1,6 @@
 #include <present.h>
 #include <windows.h>
+#include <aux/gl.h>
 
 HDC dc;
 
@@ -32,6 +33,7 @@ grinit()
 	wglMakeCurrent(dc, ctx);
 	wglDeleteContext(old);
 
+	flextInit();
 	mkprog();
 }
 
