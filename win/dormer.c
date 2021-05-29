@@ -7,6 +7,7 @@
 extern void grinit();
 extern void resized();
 
+struct Dormer dm;
 HINSTANCE inst;
 HWND win;
 WNDCLASSEX wc;
