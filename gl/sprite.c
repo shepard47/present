@@ -138,7 +138,7 @@ transprite(Sprite *s, float x, float y, float sx, float sy, float a)
 
 
 void
-setsprite(Sprite *s, int tile)
+setsprite(Sprite *s, int row, int tile)
 {
 	/* SSE maybe? */
 	int i;

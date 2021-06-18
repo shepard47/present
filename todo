@@ -1,9 +1,8 @@
 present:
+	support tile rows
 	binary canvas file
-	ced: tiles
-	farbfeld fread bad size (test)
 	xlib: modkeys + timer
-	win32: utf-8 + modkeys + timer
+	win32: fix
 	free memory!
 	implementations:
 		d3d (WIP)

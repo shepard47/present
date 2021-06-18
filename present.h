@@ -41,7 +41,7 @@ struct Sprite
 	int tile;
 	float x,y;
 	float *tex;
-	float w;
+	float w, h;
 	float *first;
 };
 
@@ -73,7 +73,7 @@ extern void mkprog();
 /* sprite.c */
 extern Sprite *sprite(Canvas *c, char *label);
 extern void transprite(Sprite *s, float x, float y, float sx, float sy, float a);
-extern void setsprite(Sprite *s, int tile);
+extern void setsprite(Sprite *s, int row, int tile);
 /* text.c */
 extern Text *text(Canvas *c, char *s);
 extern void mvtext();

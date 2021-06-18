@@ -83,7 +83,7 @@ main()
 				closed();
 				exit(0);
 			}
-			setsprite(s1, tile++);
+			setsprite(s1, 1, tile++);
 		}
 		present();
 	}
