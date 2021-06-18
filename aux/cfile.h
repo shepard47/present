@@ -53,6 +53,7 @@ cfile(char *path)
 {
 	int c;
 	int tnum = 0;
+	int rnum = 0;
 	snum = 0;
 	int len = 0;
 	fpos_t pos;
@@ -85,8 +86,14 @@ cfile(char *path)
 		getint(&tnum, &c);
 		fgetc(fp);
 		ca->sv[i].tnum = tnum;
-		ca->sv[i].tex = ca->tex + i*8;
 
+		rnum = 0;
+		fgetc(fp);
+		getint(&rnum, &c);
+		fgetc(fp);
+		ca->sv[i].rnum = rnum;
+
+		ca->sv[i].tex = ca->tex + i*8;
 		fscanf(fp, "%f %f %f %f %f %f %f %f",
 			&ca->sv[i].tex[0],
 			&ca->sv[i].tex[1],

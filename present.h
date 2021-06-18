@@ -37,6 +37,7 @@ struct Sprite
 	char *label;
 	float *vert;
 	int tnum;
+	int rnum;
 	int tile;
 	float x,y;
 	float *tex;

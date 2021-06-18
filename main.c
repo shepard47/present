@@ -27,18 +27,22 @@ main()
 	dm.screen = 0;
 	winit("present");
 
-	yo = canvas("res/yo.ca");
+	yo = canvas("res/tset.ca");
 
 	printf("%d\n", yo->si);
-	s4 = sprite(yo, "pirate.png");
+	s4 = sprite(yo, "fire.png");
 	s5 = sprite(yo, "char.png");
-	s6 = sprite(yo, "axe.jpg");
+	s6 = sprite(yo, "hobbit.png");
+/*
 	s7 = sprite(yo, "nazi.gif");
+*/
 
 	transprite(s4, 0, 0, 0.5, 0.5, 1);
 	transprite(s5, 0.7, 0.7, 1, 1, 1);
 	transprite(s6, -0.7, -0.7, -1, -1, 1);
-	transprite(s7, -0.5, -0.5, 0.1, 0.1, 1);
+/*
+	//transprite(s7, -0.5, -0.5, 0.1, 0.1, 1);
+*/
 
 	c = canvas("res/test.ca");
 	s1 = sprite(c, "character");

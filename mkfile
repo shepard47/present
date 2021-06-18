@@ -16,6 +16,6 @@ $targ: $ofiles
 %.o: %.c
 	$cc -c -I. $def -std=c89 $flags $stem.c -o $stem.o	
 clean:V:
-	rm -f $ofiles
+	rm -f $ofiles *.core
 nuke: clean
-	rm -f $targ
+	rm -f $targ 
