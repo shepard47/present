@@ -31,18 +31,14 @@ main()
 
 	printf("%d\n", yo->si);
 	s4 = sprite(yo, "fire.png");
-	s5 = sprite(yo, "char.png");
+	s5 = sprite(yo, "anim.png");
 	s6 = sprite(yo, "hobbit.png");
-/*
-	s7 = sprite(yo, "nazi.gif");
-*/
+
+	printf("char.png height: %f\n", s5->h);
 
 	transprite(s4, 0, 0, 0.5, 0.5, 1);
 	transprite(s5, 0.7, 0.7, 1, 1, 1);
 	transprite(s6, -0.7, -0.7, -1, -1, 1);
-/*
-	//transprite(s7, -0.5, -0.5, 0.1, 0.1, 1);
-*/
 
 	c = canvas("res/test.ca");
 	s1 = sprite(c, "character");
@@ -56,6 +52,9 @@ main()
 	float sx = 0.1;
 	float sy = 0.1;
 	int tile = 0;
+
+	dm.c = yo;
+	int row = 0;
 
 	for(;;){
 		readev();
@@ -79,11 +78,15 @@ main()
 				dm.c = c;
 			if(dm.key == 'h')
 				dm.c = yo;
+			if(dm.key == 'j')
+				row++;
+			if(dm.key == 'k')
+				row--;
 			if(dm.key == 'q'){
 				closed();
 				exit(0);
 			}
-			setsprite(s1, 1, tile++);
+			setsprite(s5, row, tile++);
 		}
 		present();
 	}

@@ -95,6 +95,7 @@ sprite(Canvas *c, char *label)
 			setup(c->sv[i].vert);
 			c->sv[i].c = c;
 			c->sv[i].w = c->sv[i].tex[0] - c->sv[i].tex[4];
+			c->sv[i].h = c->sv[i].tex[5] - c->sv[i].tex[1];
 			c->sv[i].first = malloc(sizeof(float)*8);
 			memmove(c->sv[i].first, c->sv[i].tex, sizeof(float)*8);
 			return &c->sv[i];
@@ -142,6 +143,8 @@ setsprite(Sprite *s, int row, int tile)
 {
 	/* SSE maybe? */
 	int i;
-	for(i=0; i<4; ++i)
-		s->tex[i*2] = s->first[i*2] + tile * s->w;
+	for(i=0; i<8; i+=2){
+		s->tex[i] = s->first[i] + tile * s->w;
+		s->tex[i+1] = s->first[i+1] + row * s->h;
+	}
 }
