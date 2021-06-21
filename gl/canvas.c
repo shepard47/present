@@ -79,7 +79,6 @@ canvas(char *path)
 	Canvas *c = cfile(path);
 
 	mkrect(c);
-	mktex(c->texp, &c->tid);
 
 	dm.c = c;
 	return c;

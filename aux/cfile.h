@@ -1,7 +1,18 @@
 static FILE *fp;
-static short bin;
 static int snum = 0;
 static int i;
+
+extern void mktex(char *path, int *id);
+
+static int
+swapped(int num)
+{
+	int le = ((num>>24)&0xff) |
+				((num<<8)&0xff0000) |
+				((num>>8)&0xff00) |
+				((num<<24)&0xff000000);
+	return le;
+}
 
 static void
 getint(int *num, int *c)
@@ -22,17 +33,12 @@ getint(int *num, int *c)
 static void
 getlen(int *len, int *c)
 {
-	puts("fgetc");
 	*c = fgetc(fp);
 	if(*c==' ' || *c=='\t' || *c=='\n'){
-		puts("fgetc");
 		*c = fgetc(fp);
 	}
 	if(*c != ':' && *c != ';'){
-		puts("len inc");
 		(*len)++;
-		printf("len: %d\n", *len);
-		puts("getlen");
 		getlen(len, c);
 	}
 }
@@ -52,13 +58,34 @@ Canvas*
 cfile(char *path)
 {
 	int c;
+	int bin = 0;
 	int tnum = 0;
 	int rnum = 0;
 	snum = 0;
 	int len = 0;
 	fpos_t pos;
 	fp = fopen(path, "r");
-	bin = fgetc(fp) - '0';
+
+
+	c = fgetc(fp);
+	if(c == 'f'){
+		bin = 1;
+		char magic[8];
+		int width, height;
+		ungetc(c, fp);	
+		fread(magic, 1, 8, fp);
+		if(strncmp(magic, "farbfeld", 8) != 0){
+			puts("someone here is missing");
+			exit(-1);
+		}
+		fread(&width, 1, 4, fp);
+		fread(&height, 1, 4, fp);
+		fseek(fp, 16 + swapped(width) * swapped(height) * 8, SEEK_SET);
+	}
+	else
+		ungetc(c, fp);		
+
+
 	getint(&snum, &c);
 
 	Canvas *ca = (Canvas*)malloc(sizeof(Canvas)
@@ -74,7 +101,6 @@ cfile(char *path)
 		do
 			c = fgetc(fp);
 		while(c==' ' || c=='\t' || c=='\n');
-		printf("char: %c\n", c);
 		ungetc(c, fp);
 		fgetpos(fp, &pos);
 		len = 0;
@@ -104,9 +130,10 @@ cfile(char *path)
 			&ca->sv[i].tex[6],
 			&ca->sv[i].tex[7]);
 	}
-	if(bin){
-		/* load image */
-	}else{
+
+	if(bin)
+		ca->texp = path;
+	else{	
 		do
 			fgetc(fp);
 		while(c==' ' || c=='\n' || c=='\t');
@@ -114,13 +141,14 @@ cfile(char *path)
 		len = 0;
 		getlen(&len, &c);
 		fsetpos(fp, &pos);
-		char *path = (char*)calloc(len, len);
+		char *texp = (char*)calloc(len, len);
 		int j;
 		for(j=0; j<len; ++j)
-			path[j] = fgetc(fp);
-		ca->texp = path;
+		texp[j] = fgetc(fp);
+		ca->texp = texp;
 	}
 
 	fclose(fp);
+	mktex(ca->texp, &ca->tid);
 	return ca;
 }

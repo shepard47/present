@@ -1,6 +1,4 @@
 present:
-	support tile rows
-	binary canvas file
 	xlib: modkeys + timer
 	win32: fix
 	free memory!

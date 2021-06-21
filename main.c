@@ -27,14 +27,12 @@ main()
 	dm.screen = 0;
 	winit("present");
 
-	yo = canvas("res/tset.ca");
+	yo = canvas("res/yoo.cb");
 
 	printf("%d\n", yo->si);
 	s4 = sprite(yo, "fire.png");
 	s5 = sprite(yo, "anim.png");
 	s6 = sprite(yo, "hobbit.png");
-
-	printf("char.png height: %f\n", s5->h);
 
 	transprite(s4, 0, 0, 0.5, 0.5, 1);
 	transprite(s5, 0.7, 0.7, 1, 1, 1);
