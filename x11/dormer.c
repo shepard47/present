@@ -139,10 +139,51 @@ handle(void)
 		case XK_BackSpace:
 			dm.key = 0x08;
 			break;
+		case XK_Tab:
+			dm.key = 0x09;	
+			break;
+		case XK_Linefeed:
+			dm.key = 0x0a;
+			break;
+		case XK_Clear:
+			puts("clear");
+			break;
+		case XK_Return:
+			puts("return");
+			break;
+		case XK_Pause:
+			puts("pause");
+			break;
+		case XK_Escape:
+			dm.key = 0x1b;
+			break;
+		case XK_Shift_L:
+			puts("left shift");
+			break;
+		case XK_Shift_R:
+			puts("right shift");
+			break;
+		case XK_Control_L:
+			puts("left control");
+			break;
+		case XK_Control_R:
+			puts("right control");
+			break;
+		case XK_Super_L:
+			puts("left super");
+			break;
+		case XK_Super_R:
+			puts("right super");
+			break;
+		case XK_Alt_L:
+			puts("left alt");
+			break;
+		case XK_Alt_R:
+			puts("right alt");
+			break;
 		default:
-			dm.key = *(int*)buf;
+			dm.key = (int)*buf;
 		}
-		printf("%x\n", dm.key);
 		/* mod & ctl */
 		break;
 	case ButtonPress:

@@ -25,7 +25,6 @@ ff(char *path, int *width, int *height)
 	short *data;
 	int size;
 	fp = fopen(path, "rb");
-	puts(path);
 	if(fp == 0)
 		fail("fopen");
 	if(fread(magic, 1, 8, fp) != 8)

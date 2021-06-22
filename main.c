@@ -15,6 +15,7 @@ closed(void)
 	puts("closing...");
 	freecanvas(c);
 	freecanvas(yo);
+
 	return 1;
 }
 
@@ -29,7 +30,6 @@ main()
 
 	yo = canvas("res/yoo.cb");
 
-	printf("%d\n", yo->si);
 	s4 = sprite(yo, "fire.png");
 	s5 = sprite(yo, "anim.png");
 	s6 = sprite(yo, "hobbit.png");
@@ -39,9 +39,9 @@ main()
 	transprite(s6, -0.7, -0.7, -1, -1, 1);
 
 	c = canvas("res/test.ca");
-	s1 = sprite(c, "character");
 	s2 = sprite(c, "npc");
 	s3 = sprite(c, "background");
+	s1 = sprite(c, "character");
 
 	transprite(s1, -0.7, -0.7, 0.5, 0.5, 2.5);
 	transprite(s2, 0, 0, 0.5, 0.5, 1);
@@ -72,6 +72,7 @@ main()
 				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
+			printf("key: %x -> %c\n", dm.key, dm.key);
 			if(dm.key == 'l')
 				dm.c = c;
 			if(dm.key == 'h')

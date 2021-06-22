@@ -105,7 +105,13 @@ void
 freecanvas(Canvas *c)
 {
 	free(c);
-	glDeleteProgram(prog);
-	free(vcode);
-	free(fcode);
+	
+	if(prog == 0)
+		return;
+	else{
+		glDeleteProgram(prog);
+		free(vcode);
+		free(fcode);
+		prog = 0;
+	}
 }
