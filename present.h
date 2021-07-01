@@ -63,6 +63,7 @@ enum
 extern void winit(char *label);
 extern void readev(void);
 extern void setcurs(int curs);
+extern int usec(void);
 /* main.c */
 extern int closed(void);
 /* canvas.c */

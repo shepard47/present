@@ -3,6 +3,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
+#include <sys/time.h>
 #include <aux/gl.h>
 
 Canvas *c;
@@ -60,6 +61,9 @@ main()
 	dm.c = yo;
 	int row = 0;
 
+	int t1, t2;
+	t1 = usec();
+
 	for(;;){
 		readev();
 
@@ -78,6 +82,10 @@ main()
 				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
+			t2 = usec();
+			printf("usec: %ld\n", t2-t1);
+			t1 = usec();
+
 			printf("key: %x -> %c\n", dm.key, dm.key);
 			if(dm.key == 'l')
 				dm.c = c;

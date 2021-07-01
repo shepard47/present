@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
+#include <sys/time.h>
 
 extern void grinit();
 extern void resized();
@@ -232,4 +234,12 @@ readev(void)
 		handle();
 	else
 		dm.ev = 0;
+}
+
+int
+usec(void)
+{
+	struct timeval t;
+	gettimeofday(&t, 0);
+	return t.tv_sec * 1000000 + t.tv_usec;	
 }
