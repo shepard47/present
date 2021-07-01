@@ -1,4 +1,5 @@
-<mkconfig
+<mk/mkconfig
+<mk/mkconfig.$os
 
 ofiles=\
 	$usr\
