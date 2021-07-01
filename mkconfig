@@ -1,10 +1,10 @@
-targ=pres.exe
-sys=win
-wsi=wgl
+targ=pres
+sys=x11
+wsi=glx
 vis=gl
-cc='zig cc -target x86_64-windows-gnu -no-pthread'
-ln=-lopengl32 -lgdi32
-flags=-D_WIN32 -Wall
+cc=gcc
+ln=-L/usr/X11R6/lib -lX11 -lGL -lXfixes
+flags=-Wall -I/usr/X11R6/include
 vert=res/vert.gl
 frag=res/frag.gl
 usr=main.o aux/gl.o

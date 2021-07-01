@@ -3,7 +3,7 @@
 ofiles=\
 	$usr\
 	$sys/dormer.o\
-	$wsi/graphics.o\
+	$sys/$wsi/graphics.o\
 	$vis/canvas.o\
 	$vis/sprite.o\
 
