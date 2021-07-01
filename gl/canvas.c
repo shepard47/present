@@ -76,6 +76,7 @@ resized(void)
 Canvas*
 canvas(char *path)
 {
+	puts("canvas");
 	Canvas *c = cfile(path);
 
 	mkrect(c);

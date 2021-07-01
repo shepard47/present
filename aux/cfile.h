@@ -80,7 +80,12 @@ cfile(char *path)
 		}
 		fread(&width, 1, 4, fp);
 		fread(&height, 1, 4, fp);
-		fseek(fp, 16 + swapped(width) * swapped(height) * 8, SEEK_SET);
+		puts("swapping");
+		width = 795;/*swapped(width);*/
+		height = 574;/*swapped(height);*/
+		puts("seeking");
+		fseek(fp, 16 + width * height * 8, SEEK_SET);
+		puts("yoo");
 	}
 	else
 		ungetc(c, fp);		
@@ -96,8 +101,10 @@ cfile(char *path)
 	ca->vert = (float*)(ca->sv + snum);
 	ca->tex = (float*)(ca->vert + snum*8);
 	ca->si = snum;
+	puts("canvas fully allocated");
 
 	for(i=0; i<snum; ++i){
+		puts("loop");
 		do
 			c = fgetc(fp);
 		while(c==' ' || c=='\t' || c=='\n');

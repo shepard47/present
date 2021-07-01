@@ -30,13 +30,19 @@ main()
 
 	yo = canvas("res/yoo.cb");
 
+	puts("way to sprites");
+
 	s4 = sprite(yo, "fire.png");
 	s5 = sprite(yo, "anim.png");
 	s6 = sprite(yo, "hobbit.png");
 
+	puts("way to transprites");
+
 	transprite(s4, 0, 0, 0.5, 0.5, 1);
 	transprite(s5, 0.7, 0.7, 1, 1, 1);
 	transprite(s6, -0.7, -0.7, -1, -1, 1);
+	
+	puts("way to next canvas");
 
 	c = canvas("res/test.ca");
 	s2 = sprite(c, "npc");

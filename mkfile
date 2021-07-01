@@ -6,12 +6,16 @@ ofiles=\
 	$wsi/graphics.o\
 	$vis/canvas.o\
 	$vis/sprite.o\
+
+hfiles=\
+	aux/cfile.h\
+	aux/ff.h\
 	
 def=\
 	-DVERT=\"$vert\"\
 	-DFRAG=\"$frag\"
 
-$targ: $ofiles
+$targ: $ofiles $hfiles
 	$cc -o $targ $ofiles $ln -lm
 %.o: %.c
 	$cc -c -I. $def -std=c89 $flags $stem.c -o $stem.o	

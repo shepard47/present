@@ -1,6 +1,7 @@
 present:
 	xlib: modkeys + timer
 	win32: fix
+		byte swapping
 	free memory!
 	implementations:
 		d3d (WIP)
