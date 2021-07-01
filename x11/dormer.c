@@ -136,7 +136,9 @@ handle(void)
 		if(xic != 0)
 			len = Xutf8LookupString(xic, &e.xkey, buf, 4, &key, &status);
 		rev(buf, strlen(buf));
-
+	
+		if(buf != 0)
+			break;
 		switch(key){
 		case XK_BackSpace:
 			dm.key = 0x08;
@@ -183,10 +185,7 @@ handle(void)
 		case XK_Alt_R:
 			puts("right alt");
 			break;
-		default:
-			dm.key = (int)*buf;
 		}
-		/* mod & ctl */
 		break;
 	case ButtonPress:
 		dm.ev = 1;

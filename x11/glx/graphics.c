@@ -6,6 +6,7 @@ typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXC
 glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
 
 extern Window win;
+extern void	flextInit(void);
 
 void
 grinit(void)
