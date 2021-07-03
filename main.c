@@ -64,6 +64,10 @@ main()
 	int t1, t2;
 	t1 = usec();
 
+	spinit(0, 2);
+	Spit *sp = newspit("new spit");
+	printf("text: %s\n", sp->text);
+
 	for(;;){
 		readev();
 
@@ -82,10 +86,11 @@ main()
 				transprite(s1, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
+/*
 			t2 = usec();
 			printf("usec: %ld\n", t2-t1);
 			t1 = usec();
-
+*/
 			printf("key: %x -> %c\n", dm.key, dm.key);
 			if(dm.key == 'l')
 				dm.c = c;

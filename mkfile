@@ -8,6 +8,7 @@ ofiles=\
 	$vis/canvas.o\
 	$vis/sprite.o\
 	spit.o\
+	$vis/spit.o\
 
 hfiles=\
 	aux/cfile.h\
