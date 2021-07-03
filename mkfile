@@ -7,6 +7,7 @@ ofiles=\
 	$sys/$wsi/graphics.o\
 	$vis/canvas.o\
 	$vis/sprite.o\
+	spit.o\
 
 hfiles=\
 	aux/cfile.h\

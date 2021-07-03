@@ -184,3 +184,11 @@ readev(void)
 		dm.ev = 0;
 	}
 }
+
+int
+usec(void)
+{
+/* todo */
+	return 0;
+}
+
