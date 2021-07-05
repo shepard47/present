@@ -6,6 +6,7 @@
 #include <ctype.h>
 #include <aux/cfile.h>
 #include <aux/src.h>
+#include <aux/shader.h>
 
 extern void mkrect(Canvas *c);
 extern void mktex(char *path, int *id);
@@ -13,8 +14,6 @@ extern void swapbuf();
 extern void setup(float *vert);
 
 int prog;
-char *vcode;
-char *fcode;
 int tex;
 float *v;
 float sum;
@@ -28,11 +27,9 @@ mkprog(void)
 {
 	int vs, fs, win;
 	char log[512];
-	vcode = src(VERT);
-	fcode = src(FRAG);
 
 	vs = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vs, 1, (const char**)&vcode, 0);
+	glShaderSource(vs, 1, (const char**)&svert, 0);
 	glCompileShader(vs);
 	glGetShaderiv(vs, GL_COMPILE_STATUS, &win);
 	if(!win){
@@ -42,7 +39,7 @@ mkprog(void)
 	}
 
 	fs = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fs, 1, (const char**)&fcode, 0);
+	glShaderSource(fs, 1, (const char**)&sfrag, 0);
 	glCompileShader(fs);
 	glGetShaderiv(fs, GL_COMPILE_STATUS, &win);
 	if(!win){
@@ -63,8 +60,6 @@ mkprog(void)
 	}
 	glDeleteShader(vs);
 	glDeleteShader(fs);
-	free(vcode);
-	free(fcode);
 }
 
 void
@@ -111,8 +106,6 @@ freecanvas(Canvas *c)
 		return;
 	else{
 		glDeleteProgram(prog);
-		free(vcode);
-		free(fcode);
 		prog = 0;
 	}
 }

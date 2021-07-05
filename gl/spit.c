@@ -3,7 +3,7 @@
 int sva, svb, sib;
 
 void
-mkspitrect()
+mkspitrect(void)
 {
 	float vert[] = {
 		0.5f, 0.5f, 0.0f,

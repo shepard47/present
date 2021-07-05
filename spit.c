@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+extern void mkspitrect(void);
+extern void mkspittex(void);
+extern void mkspitshad(void);
+
 struct Pit pit;
 
 void
@@ -13,8 +17,9 @@ spinit(Face *face, int smax)
 	pit.cap = 1047;
 	pit.ch = 0;
 	pit.sn = 0;
-/*
+
 	mkspitrect();
+/*
 	mkspittex();
 	mkspitshad();
 */
