@@ -1,12 +1,14 @@
 #include <present.h>
 #include <X11/Xlib.h>
 #include <GL/glx.h>
+#include <aux/shader.h>
 
 typedef GLXContext (*glXCreateContextAttribsARBProc)(Display*, GLXFBConfig, GLXContext, Bool, const int*);
 glXCreateContextAttribsARBProc glXCreateContextAttribsARB;
 
 extern Window win;
 extern void	flextInit(void);
+extern int prog;
 
 void
 grinit(void)
@@ -80,7 +82,7 @@ grinit(void)
 	
 	flextInit();
 
-	mkprog();
+	mkprog(&prog, &svert, &sfrag);
 }
 
 void

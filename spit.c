@@ -5,6 +5,7 @@
 extern void mkspitrect(void);
 extern void mkspittex(void);
 extern void mkspitshad(void);
+extern void drwspit(void);
 
 struct Pit pit;
 
@@ -19,8 +20,8 @@ spinit(Face *face, int smax)
 	pit.sn = 0;
 
 	mkspitrect();
-/*
 	mkspittex();
+/*
 	mkspitshad();
 */
 }
@@ -82,5 +83,6 @@ rmspit(void)
 void
 spit(void)
 {
+	drwspit();
 }
 

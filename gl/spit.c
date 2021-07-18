@@ -6,6 +6,8 @@ extern Face spleen;
 
 int sva, svb, sib;
 int stex;
+int sprog;
+extern char *spvert, *spfrag;
 
 void
 mkspitrect(void)
@@ -50,5 +52,20 @@ mkspittex(void)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, spleen.w, spleen.h, 0, GL_RED, GL_UNSIGNED_BYTE, spleen.map);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	
+}
+
+void
+mkspitshad(void)
+{
+/*
+	mkprog(sprog, spvert, spfrag); 
+*/
+}
+
+void
+drwspit(void)
+{
+	glBindVertexArray(sva);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sib);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }

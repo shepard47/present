@@ -106,6 +106,7 @@ main()
 			}
 			setsprite(s5, row, tile++);
 		}
+		spit();
 		present();
 	}
 }
