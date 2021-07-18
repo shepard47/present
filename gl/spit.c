@@ -1,6 +1,11 @@
+#include <present.h>
 #include <aux/gl.h>
+#include <aux/spit.h>
+
+extern Face spleen;
 
 int sva, svb, sib;
+int stex;
 
 void
 mkspitrect(void)
@@ -31,4 +36,19 @@ mkspitrect(void)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
+}
+
+void
+mkspittex(void)
+{
+	glGenTextures(1, &stex);	
+	glBindTexture(GL_TEXTURE_2D, stex);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, spleen.w, spleen.h, 0, GL_RED, GL_UNSIGNED_BYTE, spleen.map);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	
 }

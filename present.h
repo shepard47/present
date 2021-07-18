@@ -25,7 +25,7 @@ struct Pit
 	int sn;
 	int smax;
 	int cap;
-	Face *font;
+	Face *face;
 	int w, h;
 	char *stack;	
 	int ch;
