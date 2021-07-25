@@ -223,6 +223,7 @@ handle(void)
 		dm.y = -((float)
 			(c->y)
 			/(float)(dm.height)*2-1);
+		XFree(c);
 		break;
 	case ClientMessage:
 		if(e.xclient.data.l[0] == del){
