@@ -64,10 +64,6 @@ main()
 	int t1, t2;
 	t1 = usec();
 
-	spinit(0, 2);
-	Spit *sp = newspit("new spit");
-	printf("text: %s\n", sp->text);
-
 	for(;;){
 		readev();
 
@@ -106,7 +102,6 @@ main()
 			}
 			setsprite(s5, row, tile++);
 		}
-		spit();
 		present();
 	}
 }

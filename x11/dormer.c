@@ -114,8 +114,12 @@ void
 handle(void)
 {
 	XNextEvent(dm.dis, &e);
+	dm.x = (float)(e.xbutton.x)/(float)(dm.width)*2-1;
+	dm.y = -((float)(e.xbutton.y)/(float)(dm.height)*2-1);
+
 	if (XFilterEvent(&e, None))
 		handle();
+
 	switch(e.type){
 	case FocusIn:
 		if(xic != 0)
@@ -216,8 +220,10 @@ handle(void)
 	case MotionNotify:
 		dm.ev = 1;
 		dm.btn = 0;
+/*
 		dm.x = (float)(e.xbutton.x)/(float)(dm.width)*2-1;
 		dm.y = -((float)(e.xbutton.y)/(float)(dm.height)*2-1);
+*/
 		break;
 	case ClientMessage:
 		if(e.xclient.data.l[0] == del){
