@@ -12,7 +12,6 @@ struct Dormer
 	float x, y;
 	int width;
 	int height;
-	int screen;
 	int cursor;
 	Canvas *c;
 };

@@ -23,10 +23,7 @@ closed(void)
 int
 main()
 {
-	dm.width = 800;
-	dm.height = 600;
 	dm.cursor = Ccross;
-	dm.screen = 0;
 	winit("present");
 
 	yo = canvas("res/yoo.cb");

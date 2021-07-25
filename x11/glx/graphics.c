@@ -66,8 +66,10 @@ grinit(void)
 						ButtonPressMask	| ButtonReleaseMask	|
 						EnterWindowMask	| LeaveWindowMask	|
 						ExposureMask	| PointerMotionMask | FocusChangeMask;
+	int w = XDisplayWidth(dm.dis, scr);
+	int h = XDisplayHeight(dm.dis, scr);
 
-	win = XCreateWindow(dm.dis, root, 0, 0, dm.width, dm.height, 0, 0, InputOutput, vis, mask, &swa);
+	win = XCreateWindow(dm.dis, root, 0, 0, w, h, 0, 0, InputOutput, vis, mask, &swa);
 
 	int ctx_attr[] = {
 		0x2091, 3,

@@ -47,8 +47,7 @@ winit(char *label)
 	grinit();
 	dm.win = &win;
 	XStoreName(dm.dis, win, label);
-	if(dm.screen)
-		fscr();
+	fscr();
 	XMapWindow(dm.dis, win);
 
 	setcurs(dm.cursor);
@@ -114,9 +113,6 @@ void
 handle(void)
 {
 	XNextEvent(dm.dis, &e);
-	dm.x = (float)(e.xbutton.x)/(float)(dm.width)*2-1;
-	dm.y = -((float)(e.xbutton.y)/(float)(dm.height)*2-1);
-
 	if (XFilterEvent(&e, None))
 		handle();
 
@@ -220,10 +216,13 @@ handle(void)
 	case MotionNotify:
 		dm.ev = 1;
 		dm.btn = 0;
-/*
-		dm.x = (float)(e.xbutton.x)/(float)(dm.width)*2-1;
-		dm.y = -((float)(e.xbutton.y)/(float)(dm.height)*2-1);
-*/
+		XFixesCursorImage *c = XFixesGetCursorImage(dm.dis);
+		dm.x = (float)
+			(c->x)
+			/(float)(dm.width)*2-1;
+		dm.y = -((float)
+			(c->y)
+			/(float)(dm.height)*2-1);
 		break;
 	case ClientMessage:
 		if(e.xclient.data.l[0] == del){
