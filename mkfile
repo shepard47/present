@@ -10,7 +10,6 @@ ofiles=\
 	$vis/sprite.o
 hfiles=\
 	aux/cfile.h\
-	aux/ff.h\
 	aux/gl.h
 
 $targ: $ofiles $hfiles

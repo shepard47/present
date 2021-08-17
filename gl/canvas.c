@@ -6,7 +6,6 @@
 #include <ctype.h>
 #include <arpa/inet.h>
 #include <aux/cfile.h>
-#include <aux/src.h>
 
 extern void mkrect(Canvas *c);
 extern void swapbuf();
