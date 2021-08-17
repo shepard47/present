@@ -1,15 +1,4 @@
-/* move farbfeld here */
-
 static FILE *fp;
-
-static int
-swapped(int num) {
-	int le = ((num>>24)&0xff) |
-				((num<<8)&0xff0000) |
-				((num>>8)&0xff00) |
-				((num<<24)&0xff000000);
-	return le;
-}
 
 static void
 fail(char *func)
@@ -35,8 +24,11 @@ ff(char *path, int *width, int *height)
 		fail("fread(width)");
 	if(fread(height, 1, 4, fp) != 4)
 		fail("fread(height)");
-	*width = swapped(*width);
-	*height = swapped(*height);
+	puts("swappping??!");
+	*width = htonl(*width);
+	puts("one swap done");
+	*height = htonl(*height);
+	puts("two swaps done");
 
 	size = (*width) * (*height) * 8;
 	data = (short*)malloc(size);

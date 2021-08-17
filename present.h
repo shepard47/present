@@ -22,11 +22,12 @@ struct Canvas
 {
 	int si;
 	Sprite *sv;
-	char *texp;
 	float *vert;
 	float *tex;
 	int tid;
 	int va, vb, ib, tb;
+	short *data;
+	int w, h;
 };
 
 struct Sprite

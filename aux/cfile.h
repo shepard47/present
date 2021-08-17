@@ -2,17 +2,7 @@ static FILE *fp;
 static int snum = 0;
 static int i;
 
-extern void mktex(char *path, int *id);
-
-static int
-swapped(int num)
-{
-	int le = ((num>>24)&0xff) |
-				((num<<8)&0xff0000) |
-				((num>>8)&0xff00) |
-				((num<<24)&0xff000000);
-	return le;
-}
+extern void mktex(Canvas *c, int *id);
 
 static void
 getint(int *num, int *c)
@@ -58,7 +48,6 @@ Canvas*
 cfile(char *path)
 {
 	int c;
-	int bin = 0;
 	int tnum = 0;
 	int rnum = 0;
 	snum = 0;
@@ -68,28 +57,41 @@ cfile(char *path)
 
 
 	c = fgetc(fp);
-	if(c == 'f'){
-		bin = 1;
-		char magic[8];
-		int width, height;
-		ungetc(c, fp);	
-		fread(magic, 1, 8, fp);
-		if(strncmp(magic, "farbfeld", 8) != 0){
-			puts("someone here is missing");
-			exit(-1);
-		}
-		fread(&width, 1, 4, fp);
-		fread(&height, 1, 4, fp);
-		puts("swapping");
-		width = 795;/*swapped(width);*/
-		height = 574;/*swapped(height);*/
-		puts("seeking");
-		fseek(fp, 16 + width * height * 8, SEEK_SET);
-		puts("yoo");
+	if(c != 'f'){
+		printf("incorrect canvas file: %s\n", path);
+		exit(-1);
 	}
-	else
-		ungetc(c, fp);		
+	char magic[8];
+	int width, height;
+	long size;
+	short *data;	
 
+	ungetc(c, fp);	
+	fread(magic, 1, 8, fp);
+	if(strncmp(magic, "farbfeld", 8) != 0){
+		puts("someone here is missing");
+		exit(-1);
+	}
+	fread(&width, 1, 4, fp);
+	fread(&height, 1, 4, fp);
+	width = htonl(width);
+	height = htonl(height);
+
+	size = width * height * 8;
+        data = (short*)malloc(size);
+        if(data == 0){
+		printf("allocation failed: %s\n", path);
+		exit(-1);	
+	}
+        size = fread(data, 2, size/2, fp);
+        if(size != width * height * 4){
+                free(data);
+		printf("read failed: %s\n", path);
+		exit(-1);
+        }
+/*
+	fseek(fp, 16 + width * height * 8, SEEK_SET);
+*/
 
 	getint(&snum, &c);
 
@@ -136,26 +138,15 @@ cfile(char *path)
 			&ca->sv[i].tex[5],
 			&ca->sv[i].tex[6],
 			&ca->sv[i].tex[7]);
+		puts("end of loop");
 	}
 
-	if(bin)
-		ca->texp = path;
-	else{	
-		do
-			fgetc(fp);
-		while(c==' ' || c=='\n' || c=='\t');
-		fgetpos(fp, &pos);
-		len = 0;
-		getlen(&len, &c);
-		fsetpos(fp, &pos);
-		char *texp = (char*)calloc(len, len);
-		int j;
-		for(j=0; j<len; ++j)
-		texp[j] = fgetc(fp);
-		ca->texp = texp;
-	}
+	ca->w = width;
+	ca->h = height;
+	ca->data = data;
 
 	fclose(fp);
-	mktex(ca->texp, &ca->tid);
+	puts("into mktex:");
+	mktex(ca, &ca->tid);
 	return ca;
 }

@@ -4,11 +4,11 @@
 #include <string.h>
 #include <aux/gl.h>
 #include <ctype.h>
+#include <arpa/inet.h>
 #include <aux/cfile.h>
 #include <aux/src.h>
 
 extern void mkrect(Canvas *c);
-extern void mktex(char *path, int *id);
 extern void swapbuf();
 extern void setup(float *vert);
 

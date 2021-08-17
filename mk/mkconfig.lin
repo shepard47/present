@@ -1,0 +1,8 @@
+targ=pres
+sys=x11
+wsi=glx
+vis=gl
+cc=zig cc
+ln=-lX11 -lGL -lXfixes
+flags=-Wall 
+

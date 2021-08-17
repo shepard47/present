@@ -27,6 +27,7 @@ main()
 	winit("present");
 
 	yo = canvas("res/yoo.cb");
+	puts("yooooo done");
 
 	puts("way to sprites");
 
@@ -41,7 +42,7 @@ main()
 	transprite(s6, -0.7, -0.7, -1, -1, 1);
 	
 	puts("way to next canvas");
-
+/*
 	c = canvas("res/test.ca");
 	s2 = sprite(c, "npc");
 	s3 = sprite(c, "background");
@@ -50,7 +51,7 @@ main()
 	transprite(s1, -0.7, -0.7, 0.5, 0.5, 2.5);
 	transprite(s2, 0, 0, 0.5, 0.5, 1);
 	transprite(s3, 0.5, 0.5, 0.5, 0.3, 3.14);
-
+*/
 	float sx = 0.1;
 	float sy = 0.1;
 	int tile = 0;
@@ -68,15 +69,15 @@ main()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		if(dm.ev == 1){
-			transprite(s1, dm.x, dm.y, sx, sy, 0);
+			transprite(s5, dm.x, dm.y, sx, sy, 0);
 			if(dm.btn == 8){
 				sx += 0.05;
 				sy += 0.05;
-				transprite(s1, dm.x, dm.y, sx, sy, 0);
+				transprite(s5, dm.x, dm.y, sx, sy, 0);
 			}else if(dm.btn == 16){
 				sx -= 0.05;
 				sy -= 0.05;
-				transprite(s1, dm.x, dm.y, sx, sy, 0);
+				transprite(s5, dm.x, dm.y, sx, sy, 0);
 			}
 		}else if(dm.ev == 2){
 /*

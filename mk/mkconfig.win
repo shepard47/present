@@ -4,7 +4,5 @@ wsi=wgl
 vis=gl
 cc='zig cc -target x86_64-windows-gnu -mwindows'
 ln=-lopengl32 -lgdi32
-flags=-D_WIN32 -Wall
-vert=res/vert.gl
-frag=res/frag.gl
+flags=-Wall
 

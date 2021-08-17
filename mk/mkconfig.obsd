@@ -2,9 +2,7 @@ targ=pres
 sys=x11
 wsi=glx
 vis=gl
-cc=gcc
+cc=cc
 ln=-L/usr/X11R6/lib -lX11 -lGL -lXfixes
 flags=-Wall -I/usr/X11R6/include
-vert=res/vert.gl
-frag=res/frag.gl
 

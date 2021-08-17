@@ -48,27 +48,19 @@ mkrect(Canvas *c)
 }
 
 void
-mktex(char *path, int *id)
+mktex(Canvas *c, int *id)
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	unsigned char *data;
 	glGenTextures(1, id);
 	glBindTexture(GL_TEXTURE_2D, *id);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	int width, height;
-	data = ff(path, &width, &height);
-	if(data){
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_SHORT, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}else{
-		printf("Failed to load texture: %s\n", path);
-		exit(-1);
-	}
-	free(data);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, c->w, c->h, 0, GL_RGBA, GL_UNSIGNED_SHORT, c->data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	free(c->data);
 }
 
 void
