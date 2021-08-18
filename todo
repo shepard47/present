@@ -1,2 +1,5 @@
 awk gl loader generator
+handle multiple screens
+fix windows 
+load canvases
 
